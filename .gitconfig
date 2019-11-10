@@ -1,0 +1,12 @@
+[user]
+	email = elmer@hdz.me
+	name = Elmer Sorto
+[credential]
+	helper = cache --timeout 3600
+[pager]
+       diff = diff-so-fancy | less --tabs=1,5 -RFX
+       show = diff-so-fancy | less --tabs=1,5 -RFX
+[core]
+	editor = subl
+[color]
+	ui = true

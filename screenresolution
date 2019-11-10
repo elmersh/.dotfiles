@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# change screen resolution
+
+echo -e "\u001b[32;1m Changing screen resolution...\u001b[0m"
+
+echo -e " \u001b[37;1m\u001b[4mSelect an option:\u001b[0m"
+echo -e "  \u001b[34;1m (1) 2560x1440 \u001b[0m"
+echo -e "  \u001b[34;1m (2) 1920x1080 \u001b[0m"
+echo -e "  \u001b[31;1m (0) Exit \u001b[0m"
+
+echo -en "\u001b[32;1m ==> \u001b[0m"
+
+read -r option
+
+case $option in
+
+"1")echo -e "\u001b[7m Resolution changed...\u001b[0m"
+    xrandr --size 2560x1440
+    ;;
+
+"2")echo -e "\u001b[7m Resolution changed...\u001b[0m"
+    xrandr --size 1920x1080
+    ;;
+
+
+"0")echo -e "\u001b[32;1m Bye! \u001b[0m"
+	exit 0
+	;;
+
+
+esac
+
+exit 0
