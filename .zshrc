@@ -1,6 +1,9 @@
 #!/bin/bash
-
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.config/composer/vendor/bin:$PATH
+# A little helper to find out what operating system are we using.
+if grep -q Microsoft /proc/version; then
+    WSL=1
+fi
 
 export ZSH="$HOME/.oh-my-zsh"
 export TERM="xterm-256color"
@@ -34,7 +37,6 @@ plugins=(alias-tips
 
 # Theme
 ZSH_THEME="powerlevel10k/powerlevel10k"
-
 POWERLEVEL9K_MODE="nerdfont-complete"
 
 for f in  ~/.dotfiles/zsh/*(DN); do source $f; done
