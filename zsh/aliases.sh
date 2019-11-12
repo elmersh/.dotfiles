@@ -31,3 +31,4 @@ alias resolve='git add . && git commit --no-edit'
 alias gl='git log --oneline --decorate --color'
 alias nuke='git clean -df && git reset --hard'
 alias ptest='vendor/bin/phpunit'
+alias subl="subl.exe $1"
