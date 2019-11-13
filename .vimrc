@@ -95,7 +95,7 @@ Plugin 'Yggdroot/indentLine'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'sheerun/vim-polyglot'
 Plugin 'w0rp/ale'
-Plugin 'Shougo/deoplete.nvim'
+" Plugin 'Shougo/deoplete.nvim'
 Plugin 'roxma/nvim-yarp'
 Plugin 'roxma/vim-hug-neovim-rpc'
 Plugin 'easymotion/vim-easymotion'
@@ -114,7 +114,7 @@ let g:airline_left_sep = "\uE0B0"
 let g:airline_right_sep = "\uE0B2"
 
 " Deoplete
-let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_at_startup = 1
 inoremap <silent><expr><tab> pumvisible() ? "\<c-n>":"\<tab>"
 inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>":"\<s-tab>
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
