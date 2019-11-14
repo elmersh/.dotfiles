@@ -76,6 +76,7 @@ call vundle#begin()
 
 " Plugins
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'kien/ctrlp.vim'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 Plugin 'mattn/emmet-vim'
@@ -102,6 +103,9 @@ Plugin 'easymotion/vim-easymotion'
 Plugin 'haya14busa/incsearch.vim'
 Plugin 'haya14busa/incsearch-fuzzy.vim'
 Plugin 'haya14busa/incsearch-easymotion.vim'
+Plugin 'benmills/vimux'
+" colorschemes
+Plugin 'chriskempson/base16-vim'
 
 " Vundle Ends
 call vundle#end()
@@ -175,6 +179,9 @@ let g:indentLine_first_char = ''
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_setColors = 1
 autocmd FileType markdown let g:indentLine_enabled=0
+
+" ControlP
+map <Leader>p : CtrlP<CR>
 
 " NERDTree
 map <Leader>e : NERDTreeToggle<CR>

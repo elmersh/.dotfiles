@@ -36,3 +36,9 @@ alias ptest='vendor/bin/phpunit'
 if [[ $WSL ]]; then
         alias subl="subl.exe $1"
 fi
+
+# tmux aliases
+alias ta='tmux attach'
+alias tls='tmux ls'
+alias tat='tmux attach -t'
+alias tns='tmux new-session -s'

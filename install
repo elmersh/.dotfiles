@@ -36,11 +36,13 @@ case $option in
     mv -iv ~/.gitconfig ~/.gitconfig.old
     mv -iv ~/.vimrc ~/.vimrc.old
     mv -iv ~/.zshrc ~/.zshrc.old
+    mv -iv ~/.tmux.conf ~/.tmux.conf.old
 
     echo -e "\u001b[36;1m Adding symlinks...\u001b[0m"
     ln -sfnv "$PWD/.gitconfig" ~/.gitconfig
     ln -sfnv "$PWD/.vimrc" ~/.vimrc
     ln -sfnv "$PWD/.zshrc" ~/.zshrc
+    ln -sfnv "$PWD/tmux/tmux.conf" ~/.tmux.conf
 
     echo -e "\u001b[36;1m Remove backups with 'rm -ir ~/.*.old && rm -ir ~/.config/*.old'. \u001b[0m"
     ;;
