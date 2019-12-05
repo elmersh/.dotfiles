@@ -1,8 +1,8 @@
 #!/bin/bash
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.config/composer/vendor/bin:$PATH
-
+. ~/z/z.sh
 # Flatpak app directory
-export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:/home/elmo/.local/share/flatpak/exports/share:$XDG_DATA_DIRS"
+export XDG_DATA_DIRS="$HOME/.local/share:/var/lib/flatpak/exports/share:/home/elmo/.local/share/flatpak/exports/share:$XDG_DATA_DIRS"
 # A little helper to find out what operating system are we using.
 if grep -q Microsoft /proc/version; then
     WSL=1
@@ -42,12 +42,12 @@ plugins=(alias-tips
 ZSH_THEME="powerlevel10k/powerlevel10k"
 POWERLEVEL9K_MODE="nerdfont-complete"
 
-for f in  ~/.dotfiles/zsh/*(DN); do source $f; done
+for f in  ~/.dotfiles/scripts/*(DN); do source $f; done
 
 
 ZSH_DISABLE_COMPFIX=true
 
-ENABLE_CORRECTION="true"
+
 
 
 
@@ -70,3 +70,4 @@ fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+ENABLE_CORRECTION="false"
