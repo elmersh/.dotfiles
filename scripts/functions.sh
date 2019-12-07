@@ -1,11 +1,12 @@
 #!/bin/bash
 
+# Crear nuevo directorio e ingresar al mismo
 function mkd {
   mkdir -p "$@" && cd "$_";
 }
 
 
-# for webm videos to mp4
+# convertir videos webm a mp4
 function webm2mp4 {
   for file in *.webm
   do 
@@ -13,7 +14,7 @@ function webm2mp4 {
   done
 }
 
-# mp4 to mp3
+# mp4 a mp3
 
 function mp42mp3 {
   CURRENTMP4HERE=$(ls *.mp4 | wc -l)
@@ -55,17 +56,18 @@ function speedup {
   notify-send "your video has got speed. Enjoy"
 }
 
-# Encrypt a file to myself
 
+# Encriptar un archivo a mi mismo
 function ei {
   gpg -er C19D1580 $1
 }
 
-# Decrypt a file
+# Desencriptar archivo
 
 function di {
   gpg -do $1 $2
 }
 
+# Muestra el tiempo en la región elegida
 weather() { curl -4 wttr.in/${1:-sv} }
 
