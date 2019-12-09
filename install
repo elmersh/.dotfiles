@@ -7,7 +7,7 @@ echo -e "  \u001b[34;1m (1) Install oh-my-zsh \u001b[0m"
 echo -e "  \u001b[34;1m (2) Install zsh plugins \u001b[0m"
 echo -e "  \u001b[34;1m (3) Install vim plugins \u001b[0m"
 echo -e "  \u001b[34;1m (4) Setup symlinks \u001b[0m"
-echo -e "  \u001b[34;1m (5) Copiar configuración de VS Code"
+echo -e "  \u001b[34;1m (5) Instalar composer (requiere PHP)"
 echo -e "  \u001b[31;1m (0) Exit \u001b[0m"
 
 echo -en "\u001b[32;1m ==> \u001b[0m"
@@ -48,8 +48,27 @@ case $option in
     echo -e "\u001b[36;1m Remove backups with 'rm -ir ~/.*.old && rm -ir ~/.config/*.old'. \u001b[0m"
     ;;
 
-"3")echo -e "\u001b[7m Copiando configuración de VS Code... \u001b[0m"
-    cp -rf "$PWD/Code" ~/.config/Code
+"5")echo -e "\u001b[7m Instalando composer... \u001b[0m"
+    echo -e "\u001b[36;1m Comparando firma y descargando Composer...\u001b[0m"
+    EXPECTED_SIGNATURE="$(wget -q -O - https://composer.github.io/installer.sig)"
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    ACTUAL_SIGNATURE="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
+
+    if [ "$EXPECTED_SIGNATURE" != "$ACTUAL_SIGNATURE" ]
+    then
+        >&2 echo 'ERROR: Invalid installer signature'
+        rm composer-setup.php
+        exit 1
+    fi
+    echo -e "\u001b[36;1m Firma aprobada, instalando...\u001b[0m"
+    php composer-setup.php --quiet
+    RESULT=$?
+    rm composer-setup.php
+    sudo mv composer.phar /usr/bin/composer
+
+    echo -e "\u001b[36;1m Composer instalado correctamente.\u001b[0m"
+    composer --version
+    exit $RESULT
     ;;
 
 "0")echo -e "\u001b[32;1m Bye! \u001b[0m"
