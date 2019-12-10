@@ -8,6 +8,7 @@ echo -e "  \u001b[34;1m (2) Install zsh plugins \u001b[0m"
 echo -e "  \u001b[34;1m (3) Install vim plugins \u001b[0m"
 echo -e "  \u001b[34;1m (4) Setup symlinks \u001b[0m"
 echo -e "  \u001b[34;1m (5) Instalar composer (requiere PHP)"
+echo -e "  \u001b[34;1m (6) Instalar NVM (requiere curl)"
 echo -e "  \u001b[31;1m (0) Exit \u001b[0m"
 
 echo -en "\u001b[32;1m ==> \u001b[0m"
@@ -69,6 +70,10 @@ case $option in
     echo -e "\u001b[36;1m Composer instalado correctamente.\u001b[0m"
     composer --version
     exit $RESULT
+    ;;
+
+"6")echo -e "\u001b[7m Instalando NVM... \u001b[0m"
+    command git clone https://github.com/nvm-sh/nvm.git  ~/.nvm
     ;;
 
 "0")echo -e "\u001b[32;1m Bye! \u001b[0m"
