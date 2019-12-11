@@ -1,11 +1,11 @@
 #!/bin/bash
 export PATH=$HOME/.dotfiles/bin:$HOME/bin:/usr/local/bin:$HOME/.config/composer/vendor/bin:$PATH
-. ~/z.sh
+. ~/z/z.sh
 # Flatpak app directory
 export XDG_DATA_DIRS="$HOME/.local/share:/var/lib/flatpak/exports/share:/home/elmo/.local/share/flatpak/exports/share:$XDG_DATA_DIRS"
 
 # Inicializamos la variable WSL en caso de estar usando el Subsistema de Windows para Linux WSL
-if [[ WSL_DISTRO_NAME ]]; then
+if [[ $WSL_DISTRO_NAME ]]; then
    WSL=1
 fi
 
@@ -14,7 +14,7 @@ if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
     if [[ $WSL ]]; then
-        export EDITOR='subl.exe'
+        export EDITOR='subl'
     else
         export EDITOR='subl'
     fi
