@@ -41,6 +41,9 @@ alias gd='git diff'
 alias resolve='git add . && git commit --no-edit'
 alias gl='git log --oneline --decorate --color'
 alias nuke='git clean -df && git reset --hard'
+alias gacp="git add . && git commit -m 'autocommit' && git push"
+
+
 alias ptest='vendor/bin/phpunit'
 
 ## Aliases para WSL en Windows
