@@ -13,13 +13,18 @@ alias c='xclip-copyfile'
 alias p='xclip-pastefile'
 alias d='xclip-cutfile'
 
+
 alias lh='ls -d .*' # only hidden files
 alias la="ls -AXb --group-directories-first --sort=extension"
 alias ln="ln -sv"
 alias lsda="lsd -A --group-dirs first --classify"
 alias lsdo="lsd -A --group-dirs first --classify --recursive --depth=2"
-
+alias l='ls -l'
+alias lla='ls -la'
+alias lt='ls --tree'
 alias reloaddns='dscacheutil -flushcache && sudo killall -HUP mDNSResponder'
+
+alias l='lsd'
 
 # Laravel
 alias a='php artisan'
