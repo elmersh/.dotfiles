@@ -61,3 +61,12 @@ alias tls='tmux ls'
 alias tat='tmux attach -t'
 alias tns='tmux new-session -s'
 alias tkill='\tmux kill-session -a'
+
+
+# Admin linux
+alias sysd="sudo systemctl disable"
+alias syse="sudo systemctl enable"
+alias sysr="sudo systemctl restart"
+alias syss="systemctl status"
+alias systa="sudo systemctl start"
+alias systo="sudo systemctl stop"
