@@ -1,12 +1,25 @@
 #!/bin/bash
 export PATH=$HOME/.dotfiles/bin:$HOME/bin:/usr/local/bin:$HOME/.config/composer/vendor/bin:$PATH
-. ~/z/z.sh
+. ~/z.sh
 # Flatpak app directory
 export XDG_DATA_DIRS="$HOME/.local/share:/var/lib/flatpak/exports/share:/home/elmo/.local/share/flatpak/exports/share:$XDG_DATA_DIRS"
-# A little helper to find out what operating system are we using.
-if grep -q Microsoft /proc/version; then
-    WSL=1
+
+# Inicializamos la variable WSL en caso de estar usando el Subsistema de Windows para Linux WSL
+if [[ WSL_DISTRO_NAME ]]; then
+   WSL=1
 fi
+
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+    if [[ $WSL ]]; then
+        export EDITOR='subl.exe'
+    else
+        export EDITOR='subl'
+    fi
+fi
+
 
 export ZSH="$HOME/.oh-my-zsh"
 export TERM="xterm-256color"
@@ -42,6 +55,9 @@ plugins=(alias-tips
 ZSH_THEME="powerlevel10k/powerlevel10k"
 POWERLEVEL9K_MODE="nerdfont-complete"
 
+
+
+# Carga todos los archivos dentro de scripts
 for f in  ~/.dotfiles/scripts/*(DN); do source $f; done
 
 
@@ -54,12 +70,7 @@ ZSH_DISABLE_COMPFIX=true
 source $ZSH/oh-my-zsh.sh
 
 
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='subl'
-fi
+
 
 if [[ -a ~/.localrc ]]; then
     source ~/.localrc
