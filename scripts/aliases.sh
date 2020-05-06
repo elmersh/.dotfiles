@@ -54,8 +54,6 @@ alias ptest='vendor/bin/phpunit'
 ## Aliases para WSL en Windows
 if [[ $WSL ]]; then
     alias subl="subl.exe $1"
-else
-	alias subl=subl
 fi
 
 # tmux aliases
