@@ -56,7 +56,7 @@ endif
 
 " Keybindings
 inoremap jj <Esc>
-let mapleader = ','
+let mapleader = ' '
 inoremap <C-W> <C-G>u<C-W>
 inoremap <C-U> <C-G>u<C-U>
 

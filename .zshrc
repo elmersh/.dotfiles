@@ -38,13 +38,12 @@ SAVEHIST=99999
 MAGIC_ENTER_GIT_COMMAND="git status -v && echo -e '\n'"
 MAGIC_ENTER_OTHER_COMMAND="lsda && echo -e '\n'"
 
-# Which plugins would you like to load?
+# Which plugins would you like to load? git
 plugins=(alias-tips
         dirhistory
         extract
         fancy-ctrl-z
         fast-syntax-highlighting
-        git
         globalias
         magic-enter
         zsh-autosuggestions
@@ -82,3 +81,5 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 ENABLE_CORRECTION="false"
+
+[ -f "/home/elmo/.shopify-app-cli/shopify.sh" ] && source "/home/elmo/.shopify-app-cli/shopify.sh"
