@@ -4,6 +4,7 @@ alias ls='ls --color=auto'
 alias du='du -h'
 alias myip='curl ipinfo.io/ip'
 alias cuak='sudo apt install --yes -V'
+
 alias fapp='apt search'
 alias cuek='sudo apt purge -V'
 alias cp='cp -i'
@@ -13,6 +14,11 @@ alias co='xclip-copyfile'
 alias pa='xclip-pastefile'
 alias cu='xclip-cutfile'
 
+# Services
+alias mariaon='sudo systemctl start mysql'
+alias mariaoff='sudo systemctl stop mysql'
+alias sctle='sudo systemctl enable'
+alias sctld='sudo systemctl disable'
 
 alias lh='ls -d .*' # only hidden files
 alias la="ls -AXb --group-directories-first --sort=extension"
@@ -22,7 +28,7 @@ alias lsdo="lsd -A --group-dirs first --classify --recursive --depth=2"
 alias l='ls -l'
 alias lla='ls -la'
 alias lt='ls --tree'
-alias reloaddns='dscacheutil -flushcache && sudo killall -HUP mDNSResponder'
+# alias reloaddns='dscacheutil -flushcache && sudo killall -HUP mDNSResponder'
 
 alias l='lsd'
 
