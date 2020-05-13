@@ -60,6 +60,7 @@ alias ptest='vendor/bin/phpunit'
 ## Aliases para WSL en Windows
 if [[ $WSL ]]; then
     alias subl="subl.exe $1"
+    alias subl='"/mnt/c/Program Files/Sublime Text 3/subl.exe"'
 fi
 
 # tmux aliases
