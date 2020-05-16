@@ -35,12 +35,16 @@ case $option in
     mv -iv ~/.vimrc ~/.vimrc.old
     mv -iv ~/.zshrc ~/.zshrc.old
     mv -iv ~/.tmux.conf ~/.tmux.conf.old
+    mv -iv ~/.config/alacritty/alacritty.yml ~/.config/alacritty/alacritty.yml-old
+    mv -iv ~/.config/htop/htoprcs ~/.config/htop/htoprc
 
     echo -e "\u001b[36;1m Adding symlinks...\u001b[0m"
     ln -sfnv "$PWD/.gitconfig" ~/.gitconfig
     ln -sfnv "$PWD/.vimrc" ~/.vimrc
     ln -sfnv "$PWD/.zshrc" ~/.zshrc
     ln -sfnv "$PWD/tmux/tmux.conf" ~/.tmux.conf
+    ln -sfnv "$PWD/config/alacritty/alacritty.yml" ~/.config/alacritty/alacritty.yml
+    ln -sfnv "$PWD/config/htop/htoprc" ~/.config/htop/htoprc
 
     echo -e "\u001b[36;1m Remove backups with 'rm -ir ~/.*.old && rm -ir ~/.config/*.old'. \u001b[0m"
     ;;

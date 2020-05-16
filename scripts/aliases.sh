@@ -14,12 +14,6 @@ alias co='xclip-copyfile'
 alias pa='xclip-pastefile'
 alias cu='xclip-cutfile'
 
-# Services
-alias mariaon='sudo systemctl start mysql'
-alias mariaoff='sudo systemctl stop mysql'
-alias sctle='sudo systemctl enable'
-alias sctld='sudo systemctl disable'
-
 alias lh='ls -d .*' # only hidden files
 alias la="ls -AXb --group-directories-first --sort=extension"
 alias ln="ln -sv"
@@ -63,8 +57,6 @@ alias ptest='vendor/bin/phpunit'
 # fi
 
 # tmux aliases
-alias tmux='tmux has-session -t $USER || tmux new-session -s $USER &&  tmux -2 attach-session -t $USER'
-
 alias ta='tmux attach'
 alias tls='tmux ls'
 alias tat='tmux attach -t'
@@ -79,3 +71,7 @@ alias sysr="sudo systemctl restart"
 alias syss="systemctl status"
 alias systa="sudo systemctl start"
 alias systo="sudo systemctl stop"
+
+# Services
+alias mariaon='sudo systemctl start mysql'
+alias mariaoff='sudo systemctl stop mysql'
