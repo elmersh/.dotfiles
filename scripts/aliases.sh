@@ -3,8 +3,8 @@
 alias ls='ls --color=auto'
 alias du='du -h'
 alias myip='curl ipinfo.io/ip'
+
 alias cuak='sudo apt install --yes -V'
-alias repoup='sudo apt update'
 alias fapp='apt search'
 alias cuek='sudo apt purge -V'
 alias cp='cp -i'
