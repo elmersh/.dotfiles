@@ -15,6 +15,8 @@ alias pa='xclip-pastefile'
 alias cu='xclip-cutfile'
 
 # Services
+alias servon='sudo systemctl start'
+alias servoff='sudo systemctl stop'
 alias mariaon='sudo systemctl start mysql'
 alias mariaoff='sudo systemctl stop mysql'
 alias sctle='sudo systemctl enable'
