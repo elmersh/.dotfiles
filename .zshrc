@@ -5,6 +5,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+eval `dircolors ~/.dotfiles/.dircolors`
+
 #!/bin/bash
 export PATH=$HOME/.dotfiles/bin:$HOME/bin:/usr/local/bin:$HOME/.yarn/bin:$HOME/.config/composer/vendor/bin:$PATH
 . ~/z/z.sh
@@ -61,22 +63,12 @@ plugins=(alias-tips
 ZSH_THEME="powerlevel10k/powerlevel10k"
 POWERLEVEL9K_MODE="nerdfont-complete"
 
-
-
 # Carga todos los archivos dentro de scripts
 for f in  ~/.dotfiles/scripts/*(DN); do source $f; done
 
-
 ZSH_DISABLE_COMPFIX=true
 
-
-
-
-
 source $ZSH/oh-my-zsh.sh
-
-
-
 
 if [[ -a ~/.localrc ]]; then
     source ~/.localrc

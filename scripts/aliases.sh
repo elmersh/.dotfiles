@@ -14,6 +14,7 @@ alias co='xclip-copyfile'
 alias pa='xclip-pastefile'
 alias cu='xclip-cutfile'
 
+<<<<<<< HEAD
 # Services
 alias servon='sudo systemctl start'
 alias servoff='sudo systemctl stop'
@@ -22,6 +23,8 @@ alias mariaoff='sudo systemctl stop mysql'
 alias sctle='sudo systemctl enable'
 alias sctld='sudo systemctl disable'
 
+=======
+>>>>>>> 2645aba7b5e6a4f334463a716766c2e92de1f896
 alias lh='ls -d .*' # only hidden files
 alias la="ls -AXb --group-directories-first --sort=extension"
 alias ln="ln -sv"
@@ -60,13 +63,11 @@ alias gacp="git add . && git commit -m 'autocommit' && git push"
 alias ptest='vendor/bin/phpunit'
 
 ## Aliases para WSL en Windows
-if [[ $WSL ]]; then
-    alias subl="subl.exe $1"
-fi
+# if [[ $WSL ]]; then
+#     alias subl="subl.exe $1"
+# fi
 
 # tmux aliases
-alias tmux='tmux has-session -t $USER || tmux new-session -s $USER &&  tmux -2 attach-session -t $USER'
-
 alias ta='tmux attach'
 alias tls='tmux ls'
 alias tat='tmux attach -t'
@@ -81,3 +82,7 @@ alias sysr="sudo systemctl restart"
 alias syss="systemctl status"
 alias systa="sudo systemctl start"
 alias systo="sudo systemctl stop"
+
+# Services
+alias mariaon='sudo systemctl start mysql'
+alias mariaoff='sudo systemctl stop mysql'
