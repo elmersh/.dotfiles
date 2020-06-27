@@ -14,17 +14,6 @@ alias co='xclip-copyfile'
 alias pa='xclip-pastefile'
 alias cu='xclip-cutfile'
 
-<<<<<<< HEAD
-# Services
-alias servon='sudo systemctl start'
-alias servoff='sudo systemctl stop'
-alias mariaon='sudo systemctl start mysql'
-alias mariaoff='sudo systemctl stop mysql'
-alias sctle='sudo systemctl enable'
-alias sctld='sudo systemctl disable'
-
-=======
->>>>>>> 2645aba7b5e6a4f334463a716766c2e92de1f896
 alias lh='ls -d .*' # only hidden files
 alias la="ls -AXb --group-directories-first --sort=extension"
 alias ln="ln -sv"
