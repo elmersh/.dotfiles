@@ -8,7 +8,7 @@ fi
 eval `dircolors ~/.dotfiles/.dircolors`
 
 #!/bin/bash
-export PATH=$HOME/.dotfiles/bin:$HOME/bin:/usr/local/bin:$HOME/.yarn/bin:$HOME/.config/composer/vendor/bin:$PATH
+export PATH=$HOME/.dotfiles/bin:$HOME/bin:/usr/local/bin:$HOME/.yarn/bin:$HOME/.local/bin:$HOME/.config/composer/vendor/bin:$PATH
 . ~/z/z.sh
 # Flatpak app directory
 export XDG_DATA_DIRS="$HOME/.local/share:/var/lib/flatpak/exports/share:/home/elmo/.local/share/flatpak/exports/share:$XDG_DATA_DIRS"
