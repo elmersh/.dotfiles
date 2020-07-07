@@ -8,9 +8,9 @@ set number         " Show numbers
 set relativenumber " Show relative numbers
 set undolevels=999 " Lots of these 
 set hlsearch       " Highlight Search
-set tabstop=4      " Tab size
-set shiftwidth=4   " Indentation size
-set softtabstop=4  " Tabs/Spaces interop
+set tabstop=2      " Tab size
+set shiftwidth=2   " Indentation size
+set softtabstop=2  " Tabs/Spaces interop
 set expandtab      " Expands tab to spaces
 set nomodeline     " Disable as a security precaution
 set mouse=a        " Enable mouse mode
