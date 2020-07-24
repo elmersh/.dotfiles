@@ -1,3 +1,4 @@
+#!/bin/bash
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -7,7 +8,6 @@ fi
 
 eval `dircolors ~/.dotfiles/.dircolors`
 
-#!/bin/bash
 export PATH=$HOME/.dotfiles/bin:$HOME/bin:/usr/local/bin:$HOME/.yarn/bin:$HOME/.local/bin:$HOME/.config/composer/vendor/bin:$PATH
 . ~/z/z.sh
 
@@ -55,7 +55,6 @@ plugins=(alias-tips
 
 # Theme
 ZSH_THEME="powerlevel10k/powerlevel10k"
-POWERLEVEL9K_MODE="nerdfont-complete"
 
 # Carga todos los archivos dentro de scripts
 for f in  ~/.dotfiles/scripts/*(DN); do source $f; done
@@ -63,10 +62,6 @@ for f in  ~/.dotfiles/scripts/*(DN); do source $f; done
 ZSH_DISABLE_COMPFIX=false
 
 source $ZSH/oh-my-zsh.sh
-
-if [[ -a ~/.localrc ]]; then
-    source ~/.localrc
-fi
 
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
@@ -76,3 +71,7 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 ENABLE_CORRECTION="false"
 
 [ -f "/home/elmo/.shopify-app-cli/shopify.sh" ] && source "/home/elmo/.shopify-app-cli/shopify.sh"
+
+if [[ -a ~/.localrc ]]; then
+    source ~/.localrc
+fi

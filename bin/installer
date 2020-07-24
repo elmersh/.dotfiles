@@ -1,0 +1,191 @@
+#!/bin/bash
+
+if ! [ -x "$(command -v dialog)" ]; then
+  sudo apt install dialog
+  echo "Se ha instalado 'dialog'"
+fi
+
+if ! [ -x "$(command -v sudo add-apt-repository)" ]; then
+    sudo apt install software-properties-common
+    echo "Se ha instalado software-properties-common"
+fi
+
+cmd=(dialog --separate-output --checklist "Elige las aplicaciones a instalar: (recuerda actualizar primero con sudo apt update)" 22 76 16)
+options=(1 "Elementary Tweaks" off    # puedes poner cualquier opción en "of" por defecto
+    2 "Sublime Text 3" off
+    3 "Git" off
+    4 "ZSH" off
+    5 "oh-my-zsh" off
+    6 "oh-my-zsh plugins" off
+    7 "Crear configuración" off
+    8 "Vim y Plugins" off
+    9 "LEMP" off
+    10 "Composer" off
+    11 "NVM" off
+    12 "Spotify" off
+    13 "Teamviewer" off
+    14 "Inkscape" off
+    15 "GIMP" off
+    16 "VLC" off
+    17 "Albert" off)
+
+    choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+    clear
+
+for choice in $choices
+do
+    case $choice in
+        1)
+            # Instalar elementary-tweaks
+            echo -e "\e[42mInstalando elementary-tweaks... \e[0m"
+            sudo add-apt-repository ppa:philip.scott/elementary-tweaks
+            sudo apt install elementary-tweaks -y
+            ;;
+        2)
+            # Instalar Sublime Text 3
+            echo -e "\e[42mInstalando Sublime Text 3... \e[0m"
+            wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+            sudo apt install apt-transport-https
+            echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+            sudo apt update
+            sudo apt install sublime-text -y
+            ;;
+        3)
+            echo -e "\e[42mInstalando Git... \e[0m"
+            sudo apt install git -y
+            ;;
+        4)
+            echo -e "\e[42mInstalando ZSH... \e[0m"
+            sudo apt install zsh -y
+            ;;
+        5)
+            echo -e "\e[42mInstalando oh-my-zsh...\e[0m"
+            sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+            ;;
+
+        6)
+            echo -e "\e[42mInstalando plugins de ZSH...\e[0m"
+            git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
+            git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+            git clone https://github.com/zdharma/fast-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/fast-syntax-highlighting
+            git clone https://github.com/rupa/z.git ~/z
+            git clone https://github.com/djui/alias-tips.git ~/.oh-my-zsh/custom/plugins/alias-tips
+            ;;
+        7)
+            echo -e "\e[42mCreando enlaces de configuración... \e[0m"
+            echo -e "\e[33;1m Haciendo copias de archivos existentes... \e[0m"
+            # mv -iv ~/.gitconfig ~/.gitconfig.old
+            mv -iv ~/.vimrc ~/.vimrc.old
+            mv -iv ~/.zshrc ~/.zshrc.old
+            mv -iv ~/.tmux.conf ~/.tmux.conf.old
+            mv -iv ~/.config/alacritty/alacritty.yml ~/.config/alacritty/alacritty.yml-old
+            mv -iv ~/.config/htop/htoprcs ~/.config/htop/htoprc
+
+            echo -e "\e[36;1m Creando enlaces...\e[0m"
+            # ln -sfnv "$HOME/Dropbox/.gitconfig" ~/.gitconfig
+            ln -sfnv "$PWD/.vimrc" ~/.vimrc
+            ln -sfnv "$PWD/.zshrc" ~/.zshrc
+            ln -sfnv "$PWD/tmux/tmux.conf" ~/.tmux.conf
+            ln -sfnv "$PWD/config/alacritty/alacritty.yml" ~/.config/alacritty/alacritty.yml
+            ln -sfnv "$PWD/config/terminator/config" ~/.config/terminator/config
+            ln -sfnv "$PWD/config/htop/htoprc" ~/.config/htop/htoprc
+
+            echo -e "\e[36;1m Remove backups with 'rm -ir ~/.*.old && rm -ir ~/.config/*.old'. \e[0m"
+            ;;
+        8)
+            echo -e "\e[42mInstalando plugins de vim... \e[0m"
+            git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+            vim +PluginUpdate +qall
+            ;;
+
+        9)
+            #Instalando LEMP stack
+            echo -e "\e[42mInstalando NGINX... \e[0m"
+            sudo apt install nginx -y
+            
+            echo "Instalando Mysql Server"
+            sudo apt install mariadb-server -y
+
+            echo "Instalando PHP"
+            
+            sudo add-apt-repository ppa:ondrej/php
+            sudo apt install php-cli php-fpm php-zip php-curl php-xml php-json php-bcmath php-tokenizer php-mysql -y
+
+            echo "Desactivando servicios"
+            sudo systemctl disable nginx
+            sudo systemctl disable mysql
+            ;;
+        10)
+            echo -e "\e[42mInstalando Composer... \e[0m"
+            echo -e "\e[36;1m Comparando firma y descargando Composer...\e[0m"
+            EXPECTED_SIGNATURE="$(wget -q -O - https://composer.github.io/installer.sig)"
+            php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+            ACTUAL_SIGNATURE="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
+
+            if [ "$EXPECTED_SIGNATURE" != "$ACTUAL_SIGNATURE" ]
+            then
+                >&2 echo 'ERROR: Invalid installer signature'
+                rm composer-setup.php
+                exit 1
+            fi
+            echo -e "\e[36;1m Firma aprobada, instalando...\e[0m"
+            php composer-setup.php --quiet
+            RESULT=$?
+            rm composer-setup.php
+            sudo mv composer.phar /usr/bin/composer
+
+            echo -e "\e[36;1m Composer instalado correctamente.\e[0m"
+            composer --version
+            echo $RESULT
+            ;;
+
+        11)
+            echo -e "\e[42mInstalando NVM... \e[0m"
+            command git clone https://github.com/nvm-sh/nvm.git  ~/.nvm
+            ;;
+        12)
+            echo -e "\e[42mInstalando spotify... \e[0m"
+            curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add - 
+            echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+            sudo apt update
+            sudo apt install spotify-client -y
+            ;;
+        13)
+            #Teamviewer
+            echo -e "\e[42mInstalando teamviewer... \e[0m"
+            wget https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
+            dpkg -i teamviewer_amd64.deb
+            sudo apt install -f -y
+            rm -rf teamviewer_amd64.deb
+            ;;
+        14)
+            #Inkscape
+            echo -e "\e[42mInstalando Inkscape... \e[0m"
+            sudo add-apt-repository ppa:inkscape.dev/stable -y
+            sudo apt update
+            sudo apt install inkscape -y
+            ;;
+        15)
+            #Gimp
+            if ! [ -x "$(command -v flatpak)" ]; then
+                echo -e "\e[101mPara instalar GIMP necesitas tener \e[42;1mflatpak\e[101m instaldo\e[0m"
+            else
+                echo -e "\e[42mInstalando teamviewer... \e[0m"
+                flatpak install flathub org.gimp.GIMP -y
+            fi
+            ;;
+        16)
+            #vlc
+            echo -e "\e[42m Instalando VLC... \e[0m"
+            sudo apt install vlc -y
+            ;;
+        17)
+            #vlc
+            echo -e "\e[40m Se instaló Albert \e[0m ✔️"
+            echo 'deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_18.04/ /' | sudo tee /etc/apt/sources.list.d/home:manuelschneid3r.list
+            curl -fsSL https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_18.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home:manuelschneid3r.gpg > /dev/null
+            sudo apt update
+            sudo apt install albert -y
+            ;;
+    esac
+done
