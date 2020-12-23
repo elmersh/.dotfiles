@@ -28,7 +28,8 @@ window:
   #position:
   #  x: 0
   #  y: 0
-
+# Allow terminal applications to change Alacritty's window title.
+  dynamic_title: true
   # Window padding (changes require restart)
   #
   # Blank space added around the window in pixels. This padding is scaled
@@ -96,7 +97,7 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: "UbuntuMono Nerd Font Mono"
+    family: "JetBrainsMono Nerd Font Mono"
 
     # The `style` can be specified to pick a specific face.
     style: Regular
@@ -107,7 +108,7 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: "UbuntuMono Nerd Font Mono"
+    family: "JetBrainsMono Nerd Font Mono"
 
     # The `style` can be specified to pick a specific face.
     style: Bold
@@ -118,7 +119,7 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: "UbuntuMono Nerd Font Mono"
+    family: "JetBrainsMono Nerd Font Mono"
 
     # The `style` can be specified to pick a specific face.
     style: Italic
@@ -129,7 +130,7 @@ font:
     #
     # If the bold italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: "UbuntuMono Nerd Font Mono"
+    family: "JetBrainsMono Nerd Font Mono"
 
     # The `style` can be specified to pick a specific face.
     style: Bold Italic
@@ -235,8 +236,7 @@ selection:
   # When set to `true`, selected text will be copied to the primary clipboard.
   save_to_clipboard: true
 
-# Allow terminal applications to change Alacritty's window title.
-dynamic_title: true
+
 
 cursor:
   # Cursor style

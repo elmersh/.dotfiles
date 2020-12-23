@@ -1,33 +1,58 @@
 #!/bin/bash
 
+prompt_confirm() {
+  while true; do
+    read -r -n 1 -p "${1:-Continue?} [y/n]: " REPLY
+    case $REPLY in
+      [yY]) echo ; return 0 ;;
+      [nN]) echo ; return 1 ;;
+      *) printf " \033[31m %s \n\033[0m" "invalid input"
+    esac 
+  done  
+}
+
+
 if ! [ -x "$(command -v dialog)" ]; then
-  sudo apt install dialog
-  echo "Se ha instalado 'dialog'"
+    # example usage
+    prompt_confirm "Dialog is required, install it?" || exit 0
+    echo -e "\e[42mInstalando Dialog... \e[0m"
+    sudo apt update && sudo apt install dialog
+    echo "dialog installed"
 fi
 
-if ! [ -x "$(command -v sudo add-apt-repository)" ]; then
+
+if ! [ -x "$(command -v add-apt-repository)" ]; then
+    prompt_confirm "software-properties-common is required, install it?" || exit 0
     sudo apt install software-properties-common
-    echo "Se ha instalado software-properties-common"
+    echo "software-properties-common installed"
 fi
 
-cmd=(dialog --separate-output --checklist "Elige las aplicaciones a instalar: (recuerda actualizar primero con sudo apt update)" 22 76 16)
-options=(1 "Elementary Tweaks" off    # puedes poner cualquier opción en "of" por defecto
+if ! [ -x "$(command -v curl)" ]; then
+    prompt_confirm "we require curl for some tasks, install it?" || exit 0
+    sudo apt install software-properties-common
+    echo "curl installed"
+fi
+
+
+cmd=(dialog --separate-output --checklist "Choose the : (recuerda actualizar primero con sudo apt update)" 22 76 16)
+options=(1 "Elementary Tweaks (Elementary OS)" off    # puedes poner cualquier opción en "of" por defecto
     2 "Sublime Text 3" off
     3 "Git" off
     4 "ZSH" off
     5 "oh-my-zsh" off
     6 "oh-my-zsh plugins" off
-    7 "Crear configuración" off
+    7 "Crear configuración" on
     8 "Vim y Plugins" off
     9 "LEMP" off
     10 "Composer" off
-    11 "NVM" off
+    11 "NVM" on
     12 "Spotify" off
     13 "Teamviewer" off
     14 "Inkscape" off
-    15 "GIMP" off
-    16 "VLC" off
-    17 "Albert" off)
+    15 "Flatpak" off
+    16 "GIMP" off
+    17 "VLC" off
+    18 "Albert" off)
 
     choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
     clear
@@ -72,25 +97,43 @@ do
             git clone https://github.com/djui/alias-tips.git ~/.oh-my-zsh/custom/plugins/alias-tips
             ;;
         7)
-            echo -e "\e[42mCreando enlaces de configuración... \e[0m"
-            echo -e "\e[33;1m Haciendo copias de archivos existentes... \e[0m"
+            echo -e "\e[42mConfiguración... \e[0m"
+            echo -e "\e[33;1m Creando links y creando backups... \e[0m"
             # mv -iv ~/.gitconfig ~/.gitconfig.old
-            mv -iv ~/.vimrc ~/.vimrc.old
-            mv -iv ~/.zshrc ~/.zshrc.old
-            mv -iv ~/.tmux.conf ~/.tmux.conf.old
-            mv -iv ~/.config/alacritty/alacritty.yml ~/.config/alacritty/alacritty.yml-old
-            mv -iv ~/.config/htop/htoprcs ~/.config/htop/htoprc
-
-            echo -e "\e[36;1m Creando enlaces...\e[0m"
+            if [ -x "$(command -v vim)" ]; then
+                mv -iv $HOME/.vimrc $HOME/.vimrc-$RANDOM
+                ln -sfnv "$HOME/.dotfiles/.vimrc" $HOME/.vimrc
+                
+            fi
+            if [ -x "$(command -v zsh)" ]; then
+                mv -iv $HOME/.zshrc $HOME/.zshrc-$RANDOM
+                ln -sfnv "$HOME/.dotfiles/.zshrc" $HOME/.zshrc
+                
+            fi
+            if [ -x "$(command -v tmux)" ]; then
+                mv -iv $HOME/.tmux.conf $HOME/.tmux-$RANDOM.conf
+                ln -sfnv "$HOME/.dotfiles/tmux/tmux.conf" $HOME/.tmux.conf
+            fi
+            if [ -x "$(command -v alacritty)" ]; then
+                if [ ! -d "$HOME/.config/alacritty" ]; then
+                    mkdir $HOME/.config/alacritty
+                else
+                    mv -iv $HOME/.config/alacritty/alacritty.yml $HOME/.config/alacritty/alacritty-$RANDOM.yml
+                fi
+                ln -sfnv "$HOME/.dotfiles/config/alacritty/alacritty.yml" $HOME/.config/alacritty/alacritty.yml
+                
+            fi
+            if [ -x "$(command -v htop)" ]; then
+                mv -iv ~/.config/htop/htoprc ~/.config/htop/htoprc-$RANDOM
+                ln -sfnv "~/.dotfiles/config/htop/htoprc" ~/.config/htop/htoprc
+            fi
             # ln -sfnv "$HOME/Dropbox/.gitconfig" ~/.gitconfig
-            ln -sfnv "$PWD/.vimrc" ~/.vimrc
-            ln -sfnv "$PWD/.zshrc" ~/.zshrc
-            ln -sfnv "$PWD/tmux/tmux.conf" ~/.tmux.conf
-            ln -sfnv "$PWD/config/alacritty/alacritty.yml" ~/.config/alacritty/alacritty.yml
-            ln -sfnv "$PWD/config/terminator/config" ~/.config/terminator/config
-            ln -sfnv "$PWD/config/htop/htoprc" ~/.config/htop/htoprc
+            if [ -x "$(command -v terminator)" ]; then
+                mv -iv ~/.config/terminator/config ~/.config/terminator/config-$RANDOM
+                ln -sfnv "~/.dotfiles/config/terminator/config" ~/.config/terminator/config
+                continue
+            fi
 
-            echo -e "\e[36;1m Remove backups with 'rm -ir ~/.*.old && rm -ir ~/.config/*.old'. \e[0m"
             ;;
         8)
             echo -e "\e[42mInstalando plugins de vim... \e[0m"
@@ -108,7 +151,7 @@ do
 
             echo "Instalando PHP"
             
-            sudo add-apt-repository ppa:ondrej/php
+            sudo add-apt-repository ppa:ondrej/php -y
             sudo apt install php-cli php-fpm php-zip php-curl php-xml php-json php-bcmath php-tokenizer php-mysql -y
 
             echo "Desactivando servicios"
@@ -141,11 +184,11 @@ do
 
         11)
             echo -e "\e[42mInstalando NVM... \e[0m"
-            command git clone https://github.com/nvm-sh/nvm.git  ~/.nvm
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
             ;;
         12)
             echo -e "\e[42mInstalando spotify... \e[0m"
-            curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add - 
+            curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | sudo apt-key add -  
             echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
             sudo apt update
             sudo apt install spotify-client -y
@@ -153,10 +196,10 @@ do
         13)
             #Teamviewer
             echo -e "\e[42mInstalando teamviewer... \e[0m"
-            wget https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
-            dpkg -i teamviewer_amd64.deb
+            wget -O Teamviewer.deb https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
+            dpkg -i Teamviewer.deb
             sudo apt install -f -y
-            rm -rf teamviewer_amd64.deb
+            rm -rf Teamviewer.deb
             ;;
         14)
             #Inkscape
@@ -166,21 +209,28 @@ do
             sudo apt install inkscape -y
             ;;
         15)
+            #Flatpak
+            echo -e "\e[42mInstalando Flatpak... \e[0m"
+            sudo apt install flatpak
+            flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+            echo -e "\e[42mYou should restart your computer before installing flatpak apps\e[0m"
+            ;;
+        16)
             #Gimp
             if ! [ -x "$(command -v flatpak)" ]; then
                 echo -e "\e[101mPara instalar GIMP necesitas tener \e[42;1mflatpak\e[101m instaldo\e[0m"
             else
-                echo -e "\e[42mInstalando teamviewer... \e[0m"
+                echo -e "\e[42mInstalando GIMP... \e[0m"
                 flatpak install flathub org.gimp.GIMP -y
             fi
             ;;
-        16)
+        17)
             #vlc
             echo -e "\e[42m Instalando VLC... \e[0m"
             sudo apt install vlc -y
             ;;
-        17)
-            #vlc
+        18)
+            #Albert
             echo -e "\e[40m Se instaló Albert \e[0m ✔️"
             echo 'deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_18.04/ /' | sudo tee /etc/apt/sources.list.d/home:manuelschneid3r.list
             curl -fsSL https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_18.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home:manuelschneid3r.gpg > /dev/null
