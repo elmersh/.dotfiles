@@ -1,8 +1,12 @@
 #!/bin/bash
 # Development stuff
-alias elm='$HOME/Dev/nuxt/elmsh && git status -v'
 
-alias ls='ls --color=auto'
+# shopify
+alias fypull='shopify theme pull'
+alias fyserv='shopify theme serve'
+
+# other
+
 alias du='du -h'
 alias myip='curl ipinfo.io/ip'
 
@@ -37,11 +41,12 @@ alias dev='cd ~/Dev'
 
 # Git
 alias commit='git add . && git commit -m'
+alias ginit="git init && git add . && git commit -m 'Inicializando proyecto'"
 alias gcommit='git add . && git commit'
 alias amend='git commit --amend --no-edit'
 alias amendall='git add . && amend'
 alias wip='commit wip'
-alias gst='git status'
+alias gstatus='git status'
 alias gb='git branch'
 alias gch='git checkout'
 alias gdiff='git diff'
