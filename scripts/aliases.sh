@@ -4,6 +4,10 @@
 # shopify
 alias fypull='shopify theme pull'
 alias fyserv='shopify theme serve'
+alias fypush='shopify theme push'
+
+# MongoDB
+alias mongoin='mongosh  "mongodb://root:asdfbr%21%21%21@localhost:27017"'
 
 # other
 
