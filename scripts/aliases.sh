@@ -4,6 +4,10 @@
 # shopify
 alias fypull='shopify theme pull'
 alias fyserv='shopify theme serve'
+alias fypush='shopify theme push'
+
+# MongoDB
+alias mongoin='mongosh  "mongodb://root:asdfbr%21%21%21@localhost:27017"'
 
 # other
 
@@ -48,12 +52,12 @@ alias amendall='git add . && amend'
 alias wip='commit wip'
 alias gstatus='git status'
 alias gb='git branch'
-alias gch='git checkout'
+alias gch='git checkout -b'
 alias gdiff='git diff'
 alias resolve='git add . && git commit --no-edit'
 alias gl='git log --oneline --decorate --color'
 alias nuke='git clean -df && git reset --hard'
-alias gacp="git add . && git commit -m 'autocommit' && git push"
+alias gacp="git add . && git commit -m 'algo se hizo acá...'"
 
 
 alias ptest='vendor/bin/phpunit'

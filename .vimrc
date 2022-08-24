@@ -27,7 +27,7 @@ set ttimeoutlen=100
 set synmaxcol=500  " Syntax limit
 set laststatus=2   " Always show status line
 set ruler          " Show cursor position
-set scrolloff=3    " Scroll offset
+set scrolloff=3    " Scroll offset/Users/elmersh/.dotfiles/Vim/.vimrc
 set sidescrolloff=5
 set autoread       " Reload files on change
 set tabpagemax=50  " More tabs
