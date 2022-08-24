@@ -1,0 +1,62 @@
+#!/bin/bash
+# export PATH_TO_FX=/Users/elmersh/Dev/java/javafx-sdk-11.0.2/lib
+#export MAMP_PHP=/Applications/MAMP/bin/php/php8.1.1/bin
+#export MAMP_MYSQL=/Applications/MAMP/Library/bin
+
+alias work="cd $HOME/Dev/work/shopify"
+alias projects="cd $HOME/Dev/projects"
+
+alias psqlon='pg_ctl -D /opt/homebrew/var/postgres start'
+alias psqloff='pg_ctl -D /opt/homebrew/var/postgres stop'
+
+function doit() {
+  code .
+  theme watch --allow-live
+}
+
+function asdf {
+  case $1 in
+    't')
+        shopify login --store=$2.myshopify.com
+      ;;
+    'r')
+      code . && shopify theme serve
+      ;;
+    'b')
+      shopify theme push
+      ;;
+    'e')
+      shopify logout && shopify login --store=$2.myshopify.com
+      ;;
+    *)
+      code . && shopify theme serve
+      ;;
+  esac
+}
+
+function hey {
+  case $1 in
+    1)
+      say -v Diego $2
+      ;;
+    2)
+      say -v Juan $2
+      ;;
+    3)
+      say -v Paulina $2
+      ;;
+    4)
+      say -v Monica $2
+      ;;
+    yo)
+      say -v Juan 'Elmer Sorto'
+      ;;
+    *)
+      say -v Jorge $1
+      ;;
+  esac
+}
+
+function mysqls() {
+  command mysql --socket /tmp/mysql_$1.sock -uroot
+}
