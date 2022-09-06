@@ -46,7 +46,7 @@ plugins=(alias-tips
         dirhistory
         extract
         fancy-ctrl-z
-        fast-syntax-highlighting
+        F-Sy-H
         globalias
         magic-enter
         zsh-autosuggestions
@@ -54,7 +54,7 @@ plugins=(alias-tips
         colored-man-pages)
 
 # Theme
-ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME="obraun"
 
 # Carga todos los archivos dentro de scripts
 for f in  ~/.dotfiles/scripts/*(DN); do source $f; done
@@ -66,12 +66,12 @@ source $ZSH/oh-my-zsh.sh
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-ENABLE_CORRECTION="false"
-
 [ -f "/home/elmo/.shopify-app-cli/shopify.sh" ] && source "/home/elmo/.shopify-app-cli/shopify.sh"
 
 if [[ -a ~/.localrc ]]; then
     source ~/.localrc
 fi
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+#curl -sS https://starship.rs/install.sh | sh
+eval "$(starship init zsh)"

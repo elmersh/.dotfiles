@@ -90,7 +90,7 @@ do
 
         6)
             echo -e "\e[42mInstalando plugins de ZSH...\e[0m"
-            git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
+            # git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
             git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
             git clone https://github.com/zdharma/fast-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/fast-syntax-highlighting
             git clone https://github.com/rupa/z.git ~/z
@@ -114,25 +114,25 @@ do
                 mv -iv $HOME/.tmux.conf $HOME/.tmux-$RANDOM.conf
                 ln -sfnv "$HOME/.dotfiles/tmux/tmux.conf" $HOME/.tmux.conf
             fi
-            if [ -x "$(command -v alacritty)" ]; then
-                if [ ! -d "$HOME/.config/alacritty" ]; then
-                    mkdir $HOME/.config/alacritty
-                else
-                    mv -iv $HOME/.config/alacritty/alacritty.yml $HOME/.config/alacritty/alacritty-$RANDOM.yml
-                fi
-                ln -sfnv "$HOME/.dotfiles/config/alacritty/alacritty.yml" $HOME/.config/alacritty/alacritty.yml
+            # if [ -x "$(command -v alacritty)" ]; then
+            #     if [ ! -d "$HOME/.config/alacritty" ]; then
+            #         mkdir $HOME/.config/alacritty
+            #     else
+            #         mv -iv $HOME/.config/alacritty/alacritty.yml $HOME/.config/alacritty/alacritty-$RANDOM.yml
+            #     fi
+            #     ln -sfnv "$HOME/.dotfiles/config/alacritty/alacritty.yml" $HOME/.config/alacritty/alacritty.yml
                 
-            fi
+            # fi
             if [ -x "$(command -v htop)" ]; then
                 mv -iv ~/.config/htop/htoprc ~/.config/htop/htoprc-$RANDOM
                 ln -sfnv "~/.dotfiles/config/htop/htoprc" ~/.config/htop/htoprc
             fi
             # ln -sfnv "$HOME/Dropbox/.gitconfig" ~/.gitconfig
-            if [ -x "$(command -v terminator)" ]; then
-                mv -iv ~/.config/terminator/config ~/.config/terminator/config-$RANDOM
-                ln -sfnv "~/.dotfiles/config/terminator/config" ~/.config/terminator/config
-                continue
-            fi
+            # if [ -x "$(command -v terminator)" ]; then
+            #     mv -iv ~/.config/terminator/config ~/.config/terminator/config-$RANDOM
+            #     ln -sfnv "~/.dotfiles/config/terminator/config" ~/.config/terminator/config
+            #     continue
+            # fi
 
             ;;
         8)
@@ -184,7 +184,7 @@ do
 
         11)
             echo -e "\e[42mInstalando NVM... \e[0m"
-            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
             ;;
         12)
             echo -e "\e[42mInstalando spotify... \e[0m"
