@@ -5,6 +5,10 @@
 
 alias work="cd $HOME/Dev/work/shopify"
 alias projects="cd $HOME/Dev/projects"
+alias utec="cd $HOME/Dev/UTEC"
+alias learn="cd $HOME/Dev/learning"
+alias platzi="cd $HOME/Dev/learning/platzi"
+
 
 alias psqlon='pg_ctl -D /opt/homebrew/var/postgres start'
 alias psqloff='pg_ctl -D /opt/homebrew/var/postgres stop'
