@@ -17,11 +17,11 @@ if [[ $WSL_DISTRO_NAME ]]; then
 fi
 
 # Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
+#if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
-else
-  export EDITOR='subl'
-fi
+#else
+#  export EDITOR='subl'
+#fi
 
 
 export ZSH="$HOME/.oh-my-zsh"
