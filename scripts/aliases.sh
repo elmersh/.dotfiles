@@ -66,10 +66,10 @@ alias gacp="git add . && git commit -m 'algo se hizo acá...'"
 
 alias ptest='vendor/bin/phpunit'
 
-## Aliases para WSL en Windows
-# if [[ $WSL ]]; then
-#     alias subl="subl.exe $1"
-# fi
+# Aliases para WSL en Windows
+if [[ $WSL ]]; then
+    alias subl="subl.exe $1"
+fi
 
 # tmux aliases
 alias ta='tmux attach'
