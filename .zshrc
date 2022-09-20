@@ -2,26 +2,33 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
+export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
+
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Linux*)     machine=Linux;;
+    Darwin*)    machine=Mac;;
+    CYGWIN*)    machine=Cygwin;;
+    MINGW*)     machine=MinGw;;
+    *)          machine="UNKNOWN:${unameOut}"
+esac
+if [[ ${machine} == 'Mac' ]]; then
+  source $HOME/.dotfiles/scripts/.amac
 fi
 
-eval `dircolors ~/.dotfiles/.dircolors`
-
-export PATH=$HOME/.dotfiles/bin:$HOME/bin:/usr/local/bin:$HOME/.yarn/bin:$HOME/.local/bin:$HOME/.config/composer/vendor/bin:$PATH
+export PATH=$HOME/.yarn/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:/Applications/Sublime\ Text.app/Contents/SharedSupport/bin:$MAMP_PHP:$MAMP_MYSQL:$PATH
 . ~/z/z.sh
 
-# Inicializamos la variable WSL en caso de estar usando el Subsistema de Windows para Linux WSL
-if [[ $WSL_DISTRO_NAME ]]; then
-   WSL=1
-fi
 
 # Preferred editor for local and remote sessions
-#if [[ -n $SSH_CONNECTION ]]; then
+if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
-#else
-#  export EDITOR='subl'
-#fi
+else
+  export EDITOR='subl'
+fi
 
 
 export ZSH="$HOME/.oh-my-zsh"
@@ -42,19 +49,24 @@ MAGIC_ENTER_GIT_COMMAND="git status -v && echo -e '\n'"
 MAGIC_ENTER_OTHER_COMMAND="lsda && echo -e '\n'"
 
 # Which plugins would you like to load? git
-plugins=(alias-tips
-        dirhistory
-        extract
-        fancy-ctrl-z
-        F-Sy-H
-        globalias
-        magic-enter
-        zsh-autosuggestions
-        zsh-navigation-tools
-        colored-man-pages)
+plugins=(
+  alias-tips
+  git
+  dirhistory
+  extract
+  fancy-ctrl-z
+  fast-syntax-highlighting
+  globalias
+  magic-enter
+  zsh-autosuggestions
+  zsh-navigation-tools
+  colored-man-pages
+  macos
+)
 
 # Theme
-ZSH_THEME="obraun"
+# ZSH_THEME="powerlevel10k/powerlevel10k" robbyrussell zhann tonotdo philips sorin nanotech
+#ZSH_THEME="jnrowe"
 
 # Carga todos los archivos dentro de scripts
 for f in  ~/.dotfiles/scripts/*(DN); do source $f; done
@@ -63,15 +75,19 @@ ZSH_DISABLE_COMPFIX=false
 
 source $ZSH/oh-my-zsh.sh
 
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+# # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# ENABLE_CORRECTION="false"
+export NVM_DIR="$HOME/.nvm"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && . "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && . "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
-[ -f "/home/elmo/.shopify-app-cli/shopify.sh" ] && source "/home/elmo/.shopify-app-cli/shopify.sh"
+[ -f "/home/elmersh/.shopify-app-cli/shopify.sh" ] && source "/home/elmersh/.shopify-app-cli/shopify.sh"
 
 if [[ -a ~/.localrc ]]; then
     source ~/.localrc
 fi
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-
-#curl -sS https://starship.rs/install.sh | sh
 eval "$(starship init zsh)"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
