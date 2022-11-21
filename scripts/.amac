@@ -20,23 +20,29 @@ function doit() {
 
 function asdf {
   case $1 in
-    't')
-        shopify login --store=$2.myshopify.com
+    'g')
+      code . && shopify theme dev
       ;;
     'r')
-      code . && shopify theme serve
+      code . && shopify theme dev --store basename "$PWD"
       ;;
     'b')
       shopify theme push
       ;;
     'e')
-      shopify logout && shopify login --store=$2.myshopify.com
+      shopify auth logout && shopify theme dev --store $(pwd | grep -o '[^/]*$')
       ;;
     *)
-      code . && shopify theme serve
+      code . && shopify theme dev --store $(pwd | grep -o '[^/]*$')
       ;;
   esac
 }
+
+alias shdown="shopify theme pull --store $1"
+alias shdev="code . && shopify theme dev --store $1"
+alias shgd="gct && shdev"
+alias shx="shopify auth logout"
+alias shup="shopify theme push"
 
 function hey {
   case $1 in

@@ -46,22 +46,16 @@ alias dev='cd ~/Dev'
 # Git
 alias commit='git add . && git commit -m'
 alias ginit="git init && git add . && git commit -m 'Inicializando proyecto'"
-alias gcommit='git add . && git commit'
 alias amend='git commit --amend --no-edit'
 alias amendall='git add . && amend'
 alias wip='commit wip'
-alias gstatus='git status'
-alias gb='git branch'
-alias gmain='git checkout main'
-alias gbw='git checkout $(date +%d%b%Y)'
-alias gpull='git pull'
-alias gmer='git merge $(date +%d%b%Y)'
-alias gch='git checkout -b $(date +%d%b%Y)'
-alias gdiff='git diff'
+alias gct='git checkout $(date +%d%b%Y)'
+alias gmt='git merge $(date +%d%b%Y)'
+alias gcht='git checkout -b $(date +%d%b%Y)'
 alias resolve='git add . && git commit --no-edit'
 alias glog='git log --oneline --decorate --color'
 alias nuke='git clean -df && git reset --hard'
-alias gacp="git add . && git commit -m 'algo se hizo acá...'"
+alias coco="git add . && git commit -m 'algo se hizo acá...'"
 
 
 alias ptest='vendor/bin/phpunit'
