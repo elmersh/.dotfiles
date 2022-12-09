@@ -93,18 +93,6 @@ ed ()
 }
 
 
-# Para actualizar
-function ap()
-{
-  sudo apt update && sudo apt full-upgrade -V
-}
-
-
-function gc()
-{
-  git commit $* -m $1
-}
-
 ram () 
 {
   local sum
@@ -125,7 +113,6 @@ ram ()
   fi
   fi
 }
-
 
 bkp ()
 {

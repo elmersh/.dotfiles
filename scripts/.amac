@@ -5,32 +5,18 @@
 
 alias work="cd $HOME/Dev/work/shopify"
 alias projects="cd $HOME/Dev/projects"
-alias utec="cd $HOME/Dev/UTEC"
+alias utec="cd $HOME/OneDrive/UTEC/Clases"
 alias learn="cd $HOME/Dev/learning"
 alias platzi="cd $HOME/Dev/learning/platzi"
 
 
 alias psqlon='pg_ctl -D /opt/homebrew/var/postgres start'
 alias psqloff='pg_ctl -D /opt/homebrew/var/postgres stop'
-
-function doit() {
-  code .
-  theme watch --allow-live
-}
-
-function asdf {
+# function to make commit messages
+function fy {
   case $1 in
-    'g')
-      code . && shopify theme dev
-      ;;
-    'r')
-      code . && shopify theme dev --store basename "$PWD"
-      ;;
-    'b')
+    'p')
       shopify theme push
-      ;;
-    'e')
-      shopify auth logout && shopify theme dev --store $(pwd | grep -o '[^/]*$')
       ;;
     *)
       code . && shopify theme dev --store $(pwd | grep -o '[^/]*$')

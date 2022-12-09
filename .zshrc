@@ -50,22 +50,19 @@ MAGIC_ENTER_OTHER_COMMAND="lsda && echo -e '\n'"
 
 # Which plugins would you like to load? git
 plugins=(
-  alias-tips
-  git
-  dirhistory
-  extract
-  fancy-ctrl-z
-  fast-syntax-highlighting
-  globalias
+  #alias-tips
+  #dirhistory
+  #extract
+  #fancy-ctrl-z
+  #fast-syntax-highlighting
+  #globalias
   magic-enter
-  zsh-autosuggestions
-  zsh-navigation-tools
+  #zsh-autosuggestions
+  #zsh-navigation-tools
   colored-man-pages
-  macos
+  #macos
 )
 
-# Theme
-# ZSH_THEME="powerlevel10k/powerlevel10k" robbyrussell zhann tonotdo philips sorin nanotech
 #ZSH_THEME="jnrowe"
 
 # Carga todos los archivos dentro de scripts
@@ -75,12 +72,11 @@ ZSH_DISABLE_COMPFIX=false
 
 source $ZSH/oh-my-zsh.sh
 
-# # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-# ENABLE_CORRECTION="false"
 export NVM_DIR="$HOME/.nvm"
   [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && . "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
   [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && . "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+#[ -f "/home/elmersh/.shopify-app-cli/shopify.sh" ] && source "/home/elmersh/.shopify-app-cli/shopify.sh"
 
 if [[ -a ~/.localrc ]]; then
     source ~/.localrc
