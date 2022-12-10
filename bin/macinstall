@@ -1,5 +1,4 @@
 #!/bin/bash
-
 prompt_confirm() {
   while true; do
     read -r -n 1 -p "${1:-Continue?} [y/n]: " REPLY
@@ -14,7 +13,7 @@ prompt_confirm() {
 # check if xcode-select is installed
 if ! command -v xcode-select &> /dev/null
 then
-  pronpt_confirm "No está instalado xcode-select, ¿instalarlo?" || exit 0
+  prompt_confirm "No está instalado xcode-select, ¿instalarlo?" || exit 0
   echo -e "\033[32mInstalando xcode-select...\033[0m"
   xcode-select --install
   echo -e "\033[32mxcode-select instalado\033[0m"
@@ -25,7 +24,7 @@ fi
 # check if homebrew is installed
 if ! command -v brew &> /dev/null
 then
-  pronpt_confirm "No está instalado homebrew, ¿instalarlo?" || exit 0
+  prompt_confirm "No está instalado homebrew, ¿instalarlo?" || exit 0
   echo -e "\033[32mInstalando homebrew...\033[0m"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   echo -e "\033[32mhomebrew instalado\033[0m"
@@ -41,7 +40,7 @@ fi
 # check if dialog is installed
 if ! command -v dialog &> /dev/null
 then
-  pronpt_confirm "No está instalado dialog, ¿instalarlo?" || exit 0
+  prompt_confirm "No está instalado dialog, ¿instalarlo?" || exit 0
   echo -e "\033[32mInstalando dialog...\033[0m"
   brew install dialog
   echo -e "\033[32mdialog instalado\033[0m"
@@ -53,7 +52,7 @@ echo
 # check if git is installed
 if ! command -v git &> /dev/null
 then
-  pronpt_confirm "No está instalado git, ¿instalarlo?" || exit 0
+  prompt_confirm "No está instalado git, ¿instalarlo?" || exit 0
   echo -e "\033[32mInstalando git...\033[0m"
   brew install git
   echo -e "\033[32mgit instalado\033[0m"
@@ -92,6 +91,7 @@ options=(
   26 "Numi" off # Calculadora
   27 "Jetbrains Toolbox" off # Jetbrains Toolbox
   28 "Browsers: edge, firefox, chrome" off # Browsers
+  29 "Oh-My-ZSH" off
 )
 
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
@@ -379,7 +379,13 @@ do
         echo
         echo -e "\033[32mInstalando Microsoft Edge...\033[0m"
         brew install --cask microsoft-edge
-        echo -e "\033[32mPostman instalado\033[0m"
+        echo -e "\033[32mMicrosoft Edge instalado\033[0m"
+        echo
+    ;;
+    29)
+        echo -e "\033[32mInstalando Oh-My-ZSH...\033[0m"
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+        echo -e "\033[32mOh-My-ZSH instalado\033[0m"
         echo
     ;;
   esac
