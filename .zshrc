@@ -57,7 +57,7 @@ plugins=(
   #fast-syntax-highlighting
   #globalias
   magic-enter
-  #zsh-autosuggestions
+  zsh-autosuggestions
   #zsh-navigation-tools
   colored-man-pages
   #macos
