@@ -128,8 +128,19 @@ do
         echo -e "\033[32mInstalando zsh...\033[0m"
         brew install zsh
         echo -e "\033[32mzsh instalado\033[0m"
+        echo
+        echo -e "\033[32mCreando enlace de .zshrc en home\033[0m"
+        ln -sfnv "$HOME/.dotfiles/.zshrc" $HOME/.zshrc
+        echo -e "\033[32mEnlace creado\033[0m"
       else
         echo -e "\033[32mzsh ya está instalado\033[0m"
+        if [ ! -f "$HOME/.zshrc" ]; then
+          echo -e "\033[32mCreando enlace de .zshrc en home\033[0m"
+          ln -sfnv "$HOME/.dotfiles/.zshrc" $HOME/.zshrc
+          echo -e "\033[32mEnlace creado\033[0m"
+        else
+          echo -e "\033[32mEl enlace de .zshrc ya existe\033[0m"
+        fi
       fi
       echo
     ;;
