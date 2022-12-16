@@ -14,7 +14,7 @@ if [[ ${machine} == 'Mac' ]]; then
   source $HOME/.dotfiles/scripts/.amac
 fi
 
-export PATH=$HOME/.yarn/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:/Applications/Sublime\ Text.app/Contents/SharedSupport/bin:$MAMP_PHP:$MAMP_MYSQL:$PATH
+export PATH=$HOME/.yarn/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:/Applications/Sublime\ Text.app/Contents/SharedSupport/bin:$MAMP_PHP:$MAMP_MYSQL:$HOME/.rbenv/bin:$PATH
 #. ~/z/z.sh
 
 
@@ -49,7 +49,7 @@ plugins=(
   #dirhistory
   #extract
   #fancy-ctrl-z
-  #fast-syntax-highlighting
+  fast-syntax-highlighting
   #globalias
   magic-enter
   zsh-autosuggestions
@@ -72,6 +72,7 @@ export NVM_DIR="$HOME/.nvm"
   [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && . "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 #[ -f "/home/elmersh/.shopify-app-cli/shopify.sh" ] && source "/home/elmersh/.shopify-app-cli/shopify.sh"
+eval "$(rbenv init -)"
 
 if [[ -a ~/.localrc ]]; then
     source ~/.localrc

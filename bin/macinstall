@@ -355,7 +355,8 @@ do
     ;;
     24)
         echo -e "\033[32mInstalando Shopify Cli...\033[0m"
-        brew install shopify/shopify/shopify-cli
+        brew tap shopify/shopify
+        brew install shopify-cli
         echo -e "\033[32mShopify Cli instalado\033[0m"
         echo
     ;;
