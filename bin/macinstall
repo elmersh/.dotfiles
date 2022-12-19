@@ -63,35 +63,36 @@ echo
 
 cmd=(dialog --separate-output --checklist "Choose the : (recuerda actualizar primero con brew upgrade)" 22 76 16)
 options=(
-  1 "tdlr" on # Collecón de manuales de comandos
-  2 "htop" on # Monitor de procesos
-  3 "ZSH" on # Shell
-  4 "Starship" on # Prompt
-  5 "Exa" on # ls
-  6 "NVM" on # Node Version Manager
-  7 "rbenv" on # Ruby Version Manager
-  8 "nvim" on # Neovim
-  9 "lsd" on # ls
-  10 "PHP" on # PHP
-  11 "Mysql" on # Mysql
-  12 "PostgreSQL" on # PostgreSQL
-  13 "MongoDB" on # MongoDB
-  14 "LoLCAT" on # LoLCAT
-  15 "cowsay" on # cowsay
-  16 "Figlet" on # Figlet: ASCII Art
-  17 "Fortune" on # Fortune
-  18 "VSCode" on # Visual Studio Code
-  19 "Sublime text" on # Sublime text
-  20 "Spotify" on # Spotify
-  21 "Warp" on # Terminal con inteligencia artificial
-  22 "iTerm2" on # Terminal
+  1 "tdlr" off # Collecón de manuales de comandos
+  2 "htop" off # Monitor de procesos
+  3 "ZSH" off # Shell
+  4 "Starship" off # Prompt
+  5 "Exa" off # ls
+  6 "NVM" off # Node Version Manager
+  7 "rbenv" off # Ruby Version Manager
+  8 "nvim" off # Neovim
+  9 "lsd" off # ls
+  10 "PHP" off # PHP
+  11 "Mysql" off # Mysql
+  12 "PostgreSQL" off # PostgreSQL
+  13 "MongoDB" off # MongoDB
+  14 "LoLCAT" off # LoLCAT
+  15 "cowsay" off # cowsay
+  16 "Figlet" off # Figlet: ASCII Art
+  17 "Fortune" off # Fortune
+  18 "VSCode" off # Visual Studio Code
+  19 "Sublime text" off # Sublime text
+  20 "Spotify" off # Spotify
+  21 "Warp" off # Terminal con inteligencia artificial
+  22 "iTerm2" off # Terminal
   23 "Docker" off # Docker
   24 "Shopify Cli" off # Shopify Cli
   25 "Insomnia" off # Postman
   26 "Numi" off # Calculadora
   27 "Jetbrains Toolbox" off # Jetbrains Toolbox
   28 "Browsers: edge, firefox, chrome" off # Browsers
-  29 "Oh-My-ZSH" off
+  29 "Oh-My-ZSH" off,
+  30 "Tmux" on # Tmux
 )
 
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
@@ -398,6 +399,33 @@ do
         echo -e "\033[32mInstalando Oh-My-ZSH...\033[0m"
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
         echo -e "\033[32mOh-My-ZSH instalado\033[0m"
+        echo
+    ;;
+    30)
+        if ! command -v tmux &> /dev/null
+        then
+            echo -e "\033[32mInstalando Tmux...\033[0m"
+            brew install tmux
+            echo -e "\033[32mTmux instalado\033[0m"
+            echo
+            echo -e "\033[32mCreando enlace de configuración...\033[0m"
+            echo
+            if [ -f "$HOME/.tmux.conf" ]; then
+                echo -e "\033[32mCreando copia de seguridad de la configuración actual...\033[0m"
+                mv $HOME/.tmux.conf $HOME/.tmux.conf.bak
+            fi
+
+            ln -sfnv "$HOME/.dotfiles/.config/tmux/tmux/tmux.conf" $HOME/.tmux.conf
+        else
+            echo -e "\033[32mTmux ya está instalado\033[0m"
+            echo
+            if [ -f "$HOME/.tmux.conf" ]; then
+                echo -e "\033[32mCreando copia de seguridad de la configuración actual...\033[0m"
+                mv $HOME/.tmux.conf $HOME/.tmux.conf.bak
+            fi
+            echo -e "\033[32mCreando enlace de configuración...\033[0m"
+            ln -sfnv "$HOME/.dotfiles/.config/tmux/tmux.conf" $HOME/.tmux.conf
+        fi
         echo
     ;;
   esac
