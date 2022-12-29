@@ -17,6 +17,7 @@ vim.o.background = "dark" -- or "light" for light mode
 --   dim_inactive = false,
 --   transparent_mode = true,
 -- })
+vim.o.background = "dark"
 vim.g.nightflyWinSeparator = 2
 -- Lua initialization file
 vim.opt.fillchars = { horiz = '━', horizup = '┻', horizdown = '┳', vert = '┃', vertleft = '┫', vertright = '┣', verthoriz = '╋', }
