@@ -1,20 +1,75 @@
 #!/usr/bin/env bash
+prompt_confirm() {
+  while true; do
+    read -r -n 1 -p "${1:-Continue?} [y/n]: " REPLY
+    case $REPLY in
+      [yY]) echo ; return 0 ;;
+      [nN]) echo ; return 1 ;;
+      *) printf " \033[31m %s \n\033[0m" "invalid input"
+    esac 
+  done  
+}
+
+# crear funcion para dar color a texto en echo -e
+mkdir -p $HOME/.local/bin
+c() {
+  echo -e "\033[32m$1\033[0m"
+}
+
+prompt_confirm "Se instalará tmux y nvim, y se crearán links a la configuración de ambos y de zshrc. ¿Continuar?" || exit 0
 
 DOTFILES=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
+if ! command -v tmux &> /dev/null
+then
+    c "No se encontró tmux, se instalará"
+    brew install tmux
+    c "Se instaló tmux"
+    echo
+else
+  c "Se encontró tmux, se creará link a la configuración de tmux"
+  rm -rf $HOME/.tmux.conf.bak
+  mv $HOME/.tmux.conf $HOME/.tmux.conf.bak
+  ln -s $DOTFILES/.config/tmux/tmux.conf $HOME/.tmux.conf
+  c "Se creó link a la configuración de tmux"
+  echo
+fi
 
-rm -rf $HOME/.config/kitty
-ln -s $DOTFILES/kitty $HOME/.config/kitty
 
-rm -rf $HOME/.tmux.conf
-ln -s $DOTFILES/tmux/tmux.conf $HOME/.tmux.conf
+if ! command -v t &> /dev/null
+then
+    c "Instalando utilidad t para tmux"
+      rm -rf $HOME/.local/bin/t.bak
+      mv $HOME/.local/bin/t $HOME/.local/bin/t.bak
+      ln -s $DOTFILES/bin/t $HOME/.local/bin/t
+    c "Se instaló t"
+    echo
+fi
 
-mkdir -p $HOME/.local/bin
+if ! command -v nvim &> /dev/null
+then
+    c "No se encontró nvim, se instalará"
+    brew install neovim
+    c "Se instaló nvim"
+    echo
+else
+  c "Se encontró nvim, se creará link a la configuración de nvim"
+  rm -rf $HOME/.config/nvim.bak
+  mv $HOME/.config/nvim $HOME/.config/nvim.bak
+  ln -s $DOTFILES/.config/nvim $HOME/.config/nvim
+  c "Se creó link a la configuración de nvim"
+  echo
+fi
 
-rm -rf $HOME/.local/bin/t
-ln -s $DOTFILES/bin/t $HOME/.local/bin/t
-
-rm -rf $HOME/.config/nvim
-ln -s $DOTFILES/nvim $HOME/.config/nvim
-
-rm -rf $HOME/.config/phpactor
-ln -s $DOTFILES/phpactor $HOME/.config/phpactor
+if ! command -v zsh &> /dev/null
+then
+    c "No se encontró zsh, se instalará"
+    brew install zsh
+    c "Se instaló zsh"
+    echo
+else
+  c "Se encontró zsh, se creará link a la configuración de zsh"
+  rm -rf $HOME/.zshrc.bak
+  mv $HOME/.zshrc $HOME/.zshrc.bak
+  ln -s $DOTFILES/.zshrc $HOME/.zshrc
+  c "Se creó link a la configuración de zsh"
+fi

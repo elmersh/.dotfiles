@@ -11,7 +11,7 @@ case "${unameOut}" in
     *)          machine="UNKNOWN:${unameOut}"
 esac
 if [[ ${machine} == 'Mac' ]]; then
-  source $HOME/.dotfiles/scripts/.amac
+  source $HOME/.dotfiles/.amac
 fi
 
 export PATH=$HOME/.yarn/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:/Applications/Sublime\ Text.app/Contents/SharedSupport/bin:$MAMP_PHP:$MAMP_MYSQL:$HOME/.rbenv/bin:$PATH
@@ -22,7 +22,7 @@ export PATH=$HOME/.yarn/bin:$HOME/.local/bin:$HOME/.composer/vendor/bin:/Applica
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
-  export EDITOR='subl'
+  export EDITOR='nvim'
 fi
 
 

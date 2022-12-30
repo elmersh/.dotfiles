@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# check if parameter is -v or --version
+if [[ $1 == "-v" || $1 == "--version" ]]; then
+    echo "t version 0.1"
+    exit 0
+fi
+
 # Credit to ThePrimeagen
 
 if [[ $# -eq 1 ]]; then
