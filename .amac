@@ -3,6 +3,10 @@
 #export MAMP_PHP=/Applications/MAMP/bin/php/php8.1.1/bin
 #export MAMP_MYSQL=/Applications/MAMP/Library/bin
 
+. $HOME/.local/share/z.sh
+
+alias python="/opt/homebrew/bin/python3"
+
 alias work="cd $HOME/Dev/work/shopify"
 alias projects="cd $HOME/Dev/projects"
 alias utec="cd $HOME/OneDrive/UTEC/Clases"
@@ -12,6 +16,10 @@ alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 
 alias psqlon='pg_ctl -D /opt/homebrew/var/postgres start'
 alias psqloff='pg_ctl -D /opt/homebrew/var/postgres stop'
+
+alias v='nvim'
+alias vim='nvim'
+
 # function to make commit messages
 function fy {
   case $1 in

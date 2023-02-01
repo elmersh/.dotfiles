@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+
+# Funcion para preguntar si se desea continuar
 prompt_confirm() {
   while true; do
     read -r -n 1 -p "${1:-Continue?} [y/n]: " REPLY
@@ -10,66 +12,146 @@ prompt_confirm() {
   done  
 }
 
-# crear funcion para dar color a texto en echo -e
+# crear carpeta para binarios
 mkdir -p $HOME/.local/bin
+
+# crear funcion para dar color a texto en echo -e
 c() {
-  echo -e "\033[32m$1\033[0m"
+  #if color green
+  if [[ $1 == "g" ]]; then
+    echo -e "\033[32m$2\033[0m"
+  #if color red
+  elif [[ $1 == "r" ]]; then
+    echo -e "\033[31m$2\033[0m"
+  #if color blue
+  elif [[ $1 == "b" ]]; then
+    echo -e "\033[34m$2\033[0m"
+  #if color yellow
+  elif [[ $1 == "y" ]]; then
+    echo -e "\033[33m$2\033[0m"
+  #if color purple
+  elif [[ $1 == "p" ]]; then
+    echo -e "\033[35m$2\033[0m"
+  else 
+    echo -e "$1"
+  fi
 }
 
-prompt_confirm "Se instalará tmux y nvim, y se crearán links a la configuración de ambos y de zshrc. ¿Continuar?" || exit 0
 
-DOTFILES=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
-if ! command -v tmux &> /dev/null
+# Revisar si esta instalado brew, si no, terminar con un mensaje
+if ! command -v brew &> /dev/null
 then
-    c "No se encontró tmux, se instalará"
-    brew install tmux
-    c "Se instaló tmux"
+    c r "No se encontró brew, se instalará"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    c g "Se instaló brew"
     echo
 else
-  c "Se encontró tmux, se creará link a la configuración de tmux"
-  rm -rf $HOME/.tmux.conf.bak
-  mv $HOME/.tmux.conf $HOME/.tmux.conf.bak
-  ln -s $DOTFILES/.config/tmux/tmux.conf $HOME/.tmux.conf
-  c "Se creó link a la configuración de tmux"
+  c b "Brew está instalado, no es necesario instalarlo"
   echo
 fi
 
+# instalar tmux y nvim
+prompt_confirm "Se instalará tmux y nvim, y se crearán links a la configuración de ambos y de zshrc. ¿Continuar?" || exit 0
+
+DOTFILES=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
+
+if ! command -v tmux &> /dev/null
+then
+    c y "No se encontró tmux, se instalará"
+    brew install tmux
+    c g "Se instaló tmux"
+    echo
+fi
+
+if command -v tmux &> /dev/null
+then
+    c b "Se creará link a la configuración de tmux"
+    rm -rf $HOME/.tmux.conf.bak
+    mv $HOME/.tmux.conf $HOME/.tmux.conf.bak
+    ln -s $DOTFILES/.config/tmux/tmux.conf $HOME/.tmux.conf
+    c g "Se creó link a la configuración de tmux"
+    echo
+else
+  c r "No se encontró tmux, no se creará link a la configuración de tmuxinator"
+  echo
+fi
 
 if ! command -v t &> /dev/null
 then
-    c "Instalando utilidad t para tmux"
+    c y "No se encontró t, se instalará"
       rm -rf $HOME/.local/bin/t.bak
       mv $HOME/.local/bin/t $HOME/.local/bin/t.bak
       ln -s $DOTFILES/bin/t $HOME/.local/bin/t
-    c "Se instaló t"
+    c g "Se instaló t"
     echo
+else
+  c b "Se encontró t, no es necesario configurar"
+  echo
 fi
 
 if ! command -v nvim &> /dev/null
 then
-    c "No se encontró nvim, se instalará"
+    c y "No se encontró nvim, se instalará"
     brew install neovim
-    c "Se instaló nvim"
+    c g "Se instaló nvim"
+    echo
+fi
+
+if command -v nvim &> /dev/null
+then
+    c b "Se creará link a la configuración de nvim"
+    rm -rf $HOME/.config/nvim.bak
+    mv $HOME/.config/nvim $HOME/.config/nvim.bak
+    ln -s $DOTFILES/.config/nvim $HOME/.config/nvim
+    c g "Se creó link a la configuración de nvim"
     echo
 else
-  c "Se encontró nvim, se creará link a la configuración de nvim"
-  rm -rf $HOME/.config/nvim.bak
-  mv $HOME/.config/nvim $HOME/.config/nvim.bak
-  ln -s $DOTFILES/.config/nvim $HOME/.config/nvim
-  c "Se creó link a la configuración de nvim"
+  c r "No se encontró nvim, no se creará link a la configuración de nvim"
   echo
 fi
 
 if ! command -v zsh &> /dev/null
 then
-    c "No se encontró zsh, se instalará"
+    c y "No se encontró zsh, se instalará"
     brew install zsh
-    c "Se instaló zsh"
+    c g "Se instaló zsh"
+    echo
+fi
+
+if command -v zsh &> /dev/null
+then
+    c b "Se creará link a la configuración de zsh"
+    rm -rf $HOME/.zshrc.bak
+    mv $HOME/.zshrc $HOME/.zshrc.bak
+    ln -s $DOTFILES/.config/zsh/.zshrc $HOME/.zshrc
+    c g "Se creó link a la configuración de zsh"
     echo
 else
-  c "Se encontró zsh, se creará link a la configuración de zsh"
-  rm -rf $HOME/.zshrc.bak
-  mv $HOME/.zshrc $HOME/.zshrc.bak
-  ln -s $DOTFILES/.zshrc $HOME/.zshrc
-  c "Se creó link a la configuración de zsh"
+  c r "No se encontró zsh, no se creará link a la configuración de zsh"
+  echo
+fi
+
+# instalar oh-my-zsh
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  c y "No se encontró oh-my-zsh, se instalará"
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  c g "Se instaló oh-my-zsh"
+  echo
+else
+  c b "Se encontró oh-my-zsh, no es necesario instalarlo"
+  echo
+fi
+
+if [ -d "$HOME/.oh-my-zsh" ]; then
+  c b "Instalando plugins para oh-my-zsh"
+  echo
+  c y "Instalando fast-syntax-highlighting"
+  git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git \
+  ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
+  c g "Se instaló fast-syntax-highlighting"
+  echo
+  c y "Instalando zsh-autosuggestions"
+  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+  c g "Se instaló zsh-autosuggestions"
+  echo
 fi

@@ -1,0 +1,432 @@
+#!/bin/bash
+prompt_confirm() {
+  while true; do
+    read -r -n 1 -p "${1:-Continue?} [y/n]: " REPLY
+    case $REPLY in
+      [yY]) echo ; return 0 ;;
+      [nN]) echo ; return 1 ;;
+      *) printf " \033[31m %s \n\033[0m" "invalid input"
+    esac 
+  done  
+}
+
+# check if xcode-select is installed
+if ! command -v xcode-select &> /dev/null
+then
+  prompt_confirm "No está instalado xcode-select, ¿instalarlo?" || exit 0
+  echo -e "\033[32mInstalando xcode-select...\033[0m"
+  xcode-select --install
+  echo -e "\033[32mxcode-select instalado\033[0m"
+else
+  echo -e "\033[32mxcode-select ya está instalado\033[0m"
+fi
+
+# check if homebrew is installed
+if ! command -v brew &> /dev/null
+then
+  prompt_confirm "No está instalado homebrew, ¿instalarlo?" || exit 0
+  echo -e "\033[32mInstalando homebrew...\033[0m"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  echo -e "\033[32mhomebrew instalado\033[0m"
+  # actualizar homebrew
+  BREW_PREFIX=$(brew --prefix)
+
+  brew update
+  brew upgrade
+else
+  echo -e "\033[32mhomebrew ya está instalado\033[0m"
+fi
+
+# check if dialog is installed
+if ! command -v dialog &> /dev/null
+then
+  prompt_confirm "No está instalado dialog, ¿instalarlo?" || exit 0
+  echo -e "\033[32mInstalando dialog...\033[0m"
+  brew install dialog
+  echo -e "\033[32mdialog instalado\033[0m"
+else
+  echo -e "\033[32mdialog ya está instalado\033[0m"
+fi
+echo
+
+# check if git is installed
+if ! command -v git &> /dev/null
+then
+  prompt_confirm "No está instalado git, ¿instalarlo?" || exit 0
+  echo -e "\033[32mInstalando git...\033[0m"
+  brew install git
+  echo -e "\033[32mgit instalado\033[0m"
+else
+  echo -e "\033[32mgit ya está instalado\033[0m"
+fi
+echo
+
+cmd=(dialog --separate-output --checklist "Choose the : (recuerda actualizar primero con brew upgrade)" 22 76 16)
+options=(
+  1 "tdlr" off # Collecón de manuales de comandos
+  2 "htop" off # Monitor de procesos
+  3 "ZSH" off # Shell
+  4 "Starship" off # Prompt
+  5 "Exa" off # ls
+  6 "NVM" off # Node Version Manager
+  7 "rbenv" off # Ruby Version Manager
+  8 "nvim" off # Neovim
+  9 "lsd" off # ls
+  10 "PHP" off # PHP
+  11 "Mysql" off # Mysql
+  12 "PostgreSQL" off # PostgreSQL
+  13 "MongoDB" off # MongoDB
+  14 "LoLCAT" off # LoLCAT
+  15 "cowsay" off # cowsay
+  16 "Figlet" off # Figlet: ASCII Art
+  17 "Fortune" off # Fortune
+  18 "VSCode" off # Visual Studio Code
+  19 "Sublime text" off # Sublime text
+  20 "Spotify" off # Spotify
+  21 "Warp" off # Terminal con inteligencia artificial
+  22 "iTerm2" off # Terminal
+  23 "Docker" off # Docker
+  24 "Shopify Cli" off # Shopify Cli
+  25 "Insomnia" off # Postman
+  26 "Numi" off # Calculadora
+  27 "Jetbrains Toolbox" off # Jetbrains Toolbox
+  28 "Browsers: edge, firefox, chrome" off # Browsers
+  29 "Oh-My-ZSH" off,
+  30 "Tmux" on # Tmux
+)
+
+choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+clear
+
+for choice in $choices
+do
+  case $choice in
+    1)
+      if ! command -v tldr &> /dev/null
+      then
+        echo -e "\033[32mInstalando tldr...\033[0m"
+        brew install tldr
+        echo -e "\033[32mtldr instalado\033[0m"
+      else
+        echo -e "\033[32mtldr ya está instalado\033[0m"
+      fi
+      echo
+    ;;
+    2)
+      if ! command -v htop &> /dev/null
+      then
+        echo -e "\033[32mInstalando htop...\033[0m"
+        brew install htop
+        echo -e "\033[32mhtop instalado\033[0m"
+      else
+        echo -e "\033[32mhtop ya está instalado\033[0m"
+      fi
+      echo
+    ;;
+    3)
+      if ! command -v zsh &> /dev/null
+      then
+        echo -e "\033[32mInstalando zsh...\033[0m"
+        brew install zsh
+        echo -e "\033[32mzsh instalado\033[0m"
+        echo
+        echo -e "\033[32mCreando enlace de .zshrc en home\033[0m"
+        ln -sfnv "$HOME/.dotfiles/.zshrc" $HOME/.zshrc
+        echo -e "\033[32mEnlace creado\033[0m"
+      else
+        echo -e "\033[32mzsh ya está instalado\033[0m"
+        if [ ! -f "$HOME/.zshrc" ]; then
+          echo -e "\033[32mCreando enlace de .zshrc en home\033[0m"
+          ln -sfnv "$HOME/.dotfiles/.zshrc" $HOME/.zshrc
+          echo -e "\033[32mEnlace creado\033[0m"
+        else
+          echo -e "\033[32mEl enlace de .zshrc ya existe\033[0m"
+        fi
+      fi
+      echo
+    ;;
+    4)
+      if ! command -v starship &> /dev/null
+      then
+        echo -e "\033[32mInstalando starship...\033[0m"
+        brew install starship
+        echo -e "\033[32mstarship instalado\033[0m"
+      else
+        echo -e "\033[32mstarship ya está instalado\033[0m"
+      fi
+      echo
+    ;;
+    5)
+      if ! command -v exa &> /dev/null
+      then
+        echo -e "\033[32mInstalando exa...\033[0m"
+        brew install exa
+        echo -e "\033[32mexa instalado\033[0m"
+      else
+        echo -e "\033[32mexa ya está instalado\033[0m"
+      fi
+      echo
+    ;;
+    6)
+      if ! command -v nvm &> /dev/null
+      then
+        echo -e "\033[32mInstalando nvm...\033[0m"
+        brew install nvm
+        echo -e "\033[32mnvm instalado\033[0m"
+      else
+        echo -e "\033[32mnvm ya está instalado\033[0m"
+      fi
+      echo
+    ;;
+    7)
+      if ! command -v rbenv &> /dev/null
+      then
+        echo -e "\033[32mInstalando rbenv...\033[0m"
+        brew install rbenv
+        echo -e "\033[32mrbenv instalado\033[0m"
+      else
+        echo -e "\033[32mrbenv ya está instalado\033[0m"
+      fi
+      echo
+    ;;
+    8)
+      if ! command -v nvim &> /dev/null
+      then
+        echo -e "\033[32mInstalando nvim...\033[0m"
+        brew install nvim
+        echo -e "\033[32mnvim instalado\033[0m"
+      else
+        echo -e "\033[32mnvim ya está instalado\033[0m"
+      fi
+      echo
+    ;;
+    9)
+      if ! command -v lsd &> /dev/null
+      then
+        echo -e "\033[32mInstalando lsd...\033[0m"
+        brew install lsd
+        echo -e "\033[32mlsd instalado\033[0m"
+      else
+        echo -e "\033[32mlsd ya está instalado\033[0m"
+      fi
+      echo
+    ;;
+    10)
+      if ! command -v php &> /dev/null
+      then
+        echo -e "\033[32mInstalando php...\033[0m"
+        brew install php
+        echo -e "\033[32mphp instalado\033[0m"
+      else
+        echo -e "\033[32mphp ya está instalado\033[0m"
+      fi
+      echo
+    ;;
+    11)
+      if ! command -v mysql &> /dev/null
+      then
+        echo -e "\033[32mInstalando mysql...\033[0m"
+        brew install mysql
+        echo -e "\033[32mmysql instalado\033[0m"
+      else
+        echo -e "\033[32mmysql ya está instalado\033[0m"
+      fi
+      echo
+    ;;
+    12)
+      if ! command -v postgresql &> /dev/null
+      then
+        echo -e "\033[32mInstalando postgresql...\033[0m"
+        brew install postgresql
+        echo -e "\033[32mpostgresql instalado\033[0m"
+      else
+        echo -e "\033[32mpostgresql ya está instalado\033[0m"
+      fi
+      echo
+    ;;
+    13)
+      if ! command -v mongo &> /dev/null
+      then
+        echo -e "\033[32mInstalando mongo...\033[0m"
+        brew tap mongodb/brew
+        brew install mongodb-community
+        echo -e "\033[32mmongo instalado\033[0m"
+      else
+        echo -e "\033[32mmongo ya está instalado\033[0m"
+      fi
+      echo
+    ;;
+    14)
+    #lolcat
+      if ! command -v lolcat &> /dev/null
+      then
+        echo -e "\033[32mInstalando lolcat...\033[0m"
+        brew install lolcat
+        echo -e "\033[32mlolcat instalado\033[0m"
+      else
+        echo -e "\033[32mlolcat ya está instalado\033[0m"
+      fi
+      echo
+    ;;
+    15)
+    #cowsay
+      if ! command -v cowsay &> /dev/null
+      then
+        echo -e "\033[32mInstalando cowsay...\033[0m"
+        brew install cowsay
+        echo -e "\033[32mcowsay instalado\033[0m"
+      else
+        echo -e "\033[32mcowsay ya está instalado\033[0m"
+      fi
+      echo
+    ;;
+    16)
+    #figlet
+      if ! command -v figlet &> /dev/null
+      then
+        echo -e "\033[32mInstalando figlet...\033[0m"
+        brew install figlet
+        echo -e "\033[32mfiglet instalado\033[0m"
+      else
+        echo -e "\033[32mfiglet ya está instalado\033[0m"
+      fi
+      echo
+    ;;
+    17)
+    #fortune
+      if ! command -v fortune &> /dev/null
+      then
+        echo -e "\033[32mInstalando fortune...\033[0m"
+        brew install fortune
+        echo -e "\033[32mfortune instalado\033[0m"
+      else
+        echo -e "\033[32mfortune ya está instalado\033[0m"
+      fi
+      echo
+    ;;
+    18)
+    #vscode
+      if ! command -v code &> /dev/null
+      then
+        echo -e "\033[32mInstalando vscode...\033[0m"
+        brew install --cask visual-studio-code
+        echo -e "\033[32mvscode instalado\033[0m"
+      else
+        echo -e "\033[32mvscode ya está instalado\033[0m"
+      fi
+      echo
+    ;;
+    19)
+      echo -e "\033[32mInstalando Sublime text...\033[0m"
+      brew install --cask sublime-text
+      echo -e "\033[32mSublime text instalado\033[0m"
+      echo
+    ;;
+    20)
+      echo -e "\033[32mInstalando Spotify...\033[0m"
+      brew install --cask spotify
+      echo -e "\033[32mSpotify instalado\033[0m"
+      echo
+    ;;
+    21)
+    #Warp
+      echo -e "\033[32mInstalando Warp...\033[0m"
+      brew install --cask warp
+      echo -e "\033[32mWarp instalado\033[0m"
+      echo
+    ;;
+    22)
+    #iTerm2
+      echo -e "\033[32mInstalando iTerm2...\033[0m"
+      brew install --cask iterm2
+      echo -e "\033[32miTerm2 instalado\033[0m"
+      echo
+    ;;
+    23)
+    #Docker
+    if ! command -v docker &> /dev/null
+      then
+        echo -e "\033[32mInstalando Docker...\033[0m"
+        brew install docker
+        echo -e "\033[32mDocker instalado\033[0m"
+      else
+        echo -e "\033[32mDocker ya está instalado\033[0m"
+        echo
+      fi
+    ;;
+    24)
+        echo -e "\033[32mInstalando Shopify Cli...\033[0m"
+        brew tap shopify/shopify
+        brew install shopify-cli
+        echo -e "\033[32mShopify Cli instalado\033[0m"
+        echo
+    ;;
+    25)
+        echo -e "\033[32mInstalando Insomnia...\033[0m"
+        brew install --cask insomnia
+        echo -e "\033[32mInsomnia instalado\033[0m"
+        echo
+    ;;
+    26)
+        echo -e "\033[32mInstalando Numi...\033[0m"
+        brew install --cask numi
+        echo -e "\033[32mNumi instalado\033[0m"
+        echo
+    ;;
+    27)
+        echo -e "\033[32mInstalando Jetbrains Toolbox...\033[0m"
+        brew install --cask jetbrains-toolbox
+        echo -e "\033[32mJetbrains Toolbox instalado\033[0m"
+        echo
+    ;;
+    28)
+        echo -e "\033[32mInstalando Browsers...\033[0m"
+        echo
+        echo -e "\033[32mInstalando Chrome...\033[0m"
+        brew install --cask google-chrome
+        echo -e "\033[32mChrome instalado\033[0m"
+        echo
+        echo -e "\033[32mInstalando Firefox...\033[0m"
+        brew install --cask firefox
+        echo -e "\033[32mFirefox instalado\033[0m"
+        echo
+        echo -e "\033[32mInstalando Microsoft Edge...\033[0m"
+        brew install --cask microsoft-edge
+        echo -e "\033[32mMicrosoft Edge instalado\033[0m"
+        echo
+    ;;
+    29)
+        echo -e "\033[32mInstalando Oh-My-ZSH...\033[0m"
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+        echo -e "\033[32mOh-My-ZSH instalado\033[0m"
+        echo
+    ;;
+    30)
+        if ! command -v tmux &> /dev/null
+        then
+            echo -e "\033[32mInstalando Tmux...\033[0m"
+            brew install tmux
+            echo -e "\033[32mTmux instalado\033[0m"
+            echo
+            echo -e "\033[32mCreando enlace de configuración...\033[0m"
+            echo
+            if [ -f "$HOME/.tmux.conf" ]; then
+                echo -e "\033[32mCreando copia de seguridad de la configuración actual...\033[0m"
+                mv $HOME/.tmux.conf $HOME/.tmux.conf.bak
+            fi
+
+            ln -sfnv "$HOME/.dotfiles/.config/tmux/tmux/tmux.conf" $HOME/.tmux.conf
+        else
+            echo -e "\033[32mTmux ya está instalado\033[0m"
+            echo
+            if [ -f "$HOME/.tmux.conf" ]; then
+                echo -e "\033[32mCreando copia de seguridad de la configuración actual...\033[0m"
+                mv $HOME/.tmux.conf $HOME/.tmux.conf.bak
+            fi
+            echo -e "\033[32mCreando enlace de configuración...\033[0m"
+            ln -sfnv "$HOME/.dotfiles/.config/tmux/tmux.conf" $HOME/.tmux.conf
+        fi
+        echo
+    ;;
+  esac
+done

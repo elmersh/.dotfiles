@@ -1,10 +1,28 @@
 #!/bin/bash
 
+
+# Git
+function commit {
+  git add . && git commit -m "$1"
+}
+function glog {
+  git log --graph --oneline --decorate --color --all
+}
+
 # Crear nuevo directorio e ingresar al mismo
 function mkd {
   mkdir -p "$@" && cd "$_";
 }
 
+
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Linux*)     machine=Linux;;
+    Darwin*)    machine=Mac;;
+    CYGWIN*)    machine=Cygwin;;
+    MINGW*)     machine=MinGw;;
+    *)          machine="UNKNOWN:${unameOut}"
+esac
 
 # convertir videos webm a mp4
 function webm2mp4 {
@@ -117,4 +135,66 @@ ram ()
 bkp ()
 {
   cp -riv $1 ${1}-$(date +%d-%m-%Y-%H:%M).bak
+}
+
+
+# git clone
+function gcl {
+  git clone git@haciendola:Haciendola-Developers/$(pwd | grep -o '[^/]*$').git
+}
+
+
+# automation for the following commands: mkd, gcl, gchn, fy
+function ko {
+  # si no hay argumentos, salir
+  if [ -z "$1" ]; then
+  # echo "No hay argumentos, ingresar el nombre de la tienda..." con fondo rojo y texto blanco
+    echo -e "\e[1;31mNo hay argumentos, ingresar el nombre de la tienda...\e[0m"
+    echo -e "\e[1;32mEjemplo: ko nombre-tienda\e[0m"
+    return
+  fi
+  # Revisar si no estamos en el directorio
+  if [ "$1" != "$(pwd | grep -o '[^/]*$')" ]; then
+    # Si no existe, lo creamos
+    if [ ! -d "$1" ]; then
+      echo -e "\e[1;32mCreando directorio $1...\e[0m"
+      mkdir $1
+      cd $1
+    else
+      echo -e "\e[1;32mEl proyecto $1 ya existe...\e[0m"
+      cd $1
+    fi
+  else
+    echo "\e[1;31mYa estás en $1...\e[0m"
+    return
+  fi
+  
+
+  # Si el directorio está vacío, clonamos el repositorio
+  if [ -z "$(ls -A)" ]; then
+    echo -e "\e[1;32mClonando repositorio...\e[0m"
+    git clone git@haciendola:Haciendola-Developers/$(pwd | grep -o '[^/]*$').git .
+  else
+    echo "\e[1;31mEl directorio no está vacío...\e[0m"
+    return
+  fi
+
+  # checkout new branch
+  if [ "$(git branch --show-current)" = "main" ]; then
+    echo -e "\e[1;32mCreando rama $(date +%d%b%Y)...\e[0m"
+    git checkout -b $(date +%d%b%Y)
+  else
+    echo "\e[1;31mNo estás en la rama main...\e[0m"
+    return
+  fi
+
+  if [ "$(git branch --show-current)" = "$(date +%d%b%Y)" ]; then
+    echo -e "\e[1;32mAbriendo en Visual Studio Code...\e[0m"
+    code .
+    echo -e "\e[1;32mIniciando shopify dev\e[0m"
+    shopify theme dev --store $(pwd | grep -o '[^/]*$')
+  else
+    echo -e "\e[1;31mNo se pudo crear la rama $(date +%d%b%Y)...\e[0m"
+    return
+  fi
 }
